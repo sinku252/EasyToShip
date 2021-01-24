@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black_post_title">#303b41</color>
+    <color name="edit_text_hint_color">#6B6B6B</color>
+    <color name="edit_text_color">#C6A83A</color>
+    <color name="order_title">#302E2E</color>
+
+
+
+    <color name="toolbar_color">#3A58C6</color>
+
+    <color name="dull_background">#EFEFEF</color>
+    <color name="dark_green_color">#35AD3A</color>
+    <color name="red_color">#F84343</color>
+    <color name="green_color">#4AFF0B</color>
+    <color name="gray_color">#828282</color>
+    <color name="colorGrey">#CECECE</color>
+    <color name="blue_color">#3A58C6</color>
+    <color name="yellow_color">#FFCB0B</color>
+    <color name="next_color">#6B6B6B</color>
+
+
+    <!--    Toolbar     -->
+    <color name="colorTextToolbarTitle">#FFFFFF</color>
+    <color name="colorToolbar">#DB201B</color>
+
+    <color name="colorCrimson">#DB201B</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorCodGray">#1A1A1A</color>
+
+    <!--    Text colors     -->
+    <color name="colorTextCrimson">#DB201B</color>
+    <color name="colorTextBlack">#000000</color>
+    <color name="colorTextWhite">#FFFFFF</color>
+    <color name="colorTextRaven">#868ca1</color>
+    <color name="colorTextGreen">#70C947</color>
+    <color name="colorTextGreyOne">#B5B5B5</color>
+    <color name="colorTextGreyTwo">#525252</color>
+
+    <!--  Buttons  -->
+    <color name="colorTextButtonRedOne">#ffffff</color>
+    <color name="colorButtonRedOne">#3A58C6</color>
+    <color name="colorRippleButtonRedOne">#F85E5A</color>
+
+    <color name="colorTextButtonRedTwo">#ffffff</color>
+    <color name="colorButtonRedTwo">#DB201B</color>
+    <color name="colorRippleButtonRedTwo">#F85E5A</color>
+
+    <color name="colorTextButtonGreyOne">#B5B5B5</color>
+    <color name="colorButtonGreyOne">#5D5D5D</color>
+    <color name="colorRippleButtonGreyOne">#373737</color>
+
+    <color name="colorTextInputLayoutControl">#868ca1</color>
+    <color name="colorTextInputLayoutOneHint">#868ca1</color>
+
+    <!--  Dividers  -->
+    <color name="colorDividerRaven">#868ca1</color>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="colorShimmerViewBackground">#dddddd</color>
+
+</resources>

@@ -1,0 +1,177 @@
+<resources>
+    <string name="app_name">EasyToShip</string>
+
+    <string name="err_network_connection">Please check your network connection.</string>
+    <string name="err_something_wrong">Something went wrong! Please try again later.</string>
+    <string name="err_server_connection">Couldn\'t connect to sever! Please try again later.</string>
+    <string name="err_name_empty">Please enter name.</string>
+    <string name="err_email_empty">Please enter email address or mobile number.</string>
+    <string name="err_subject_empty">Please enter subject.</string>
+    <string name="err_message_empty">Please enter message.</string>
+    <string name="err_username_empty">Please enter username.</string>
+    <string name="err_company_empty">Please enter company name.</string>
+    <string name="err_vehicle_empty">Please journey type.</string>
+    <string name="err_date_empty">Please select date.</string>
+    <string name="err_pickup_number_empty">Please enter pickup number.</string>
+    <string name="err_delivery_number_empty">Please enter delivery number.</string>
+    <string name="err_from_empty">Please add from address.</string>
+    <string name="err_empty_domestic">Please select type of transport.</string>
+    <string name="err_empty_import_export">Please select Import/Export.</string>
+    <string name="err_to_empty">Please add to address.</string>
+    <string name="err_shipment_type_empty">Please Select Document/Parcel.</string>
+    <string name="err_max_km">Max distance for %s %s km</string>
+    <string name="err_one_empty">Please Select OneWay/TwoWay.</string>
+    <string name="err_personal_commercial_empty">Please Select Personal/Commercial.</string>
+    <string name="err_pannumber_min_length">Please enter 10 digit pan number.</string>
+
+    <string name="err_pannumber_empty">Please enter pan number.</string>
+    <string name="err_gst_empty">Please enter gst.</string>
+    <string name="err_gst_min_length">Please enter 15 digit pan number.</string>
+    <string name="err_password_empty">Please enter password.</string>
+    <string name="err_email_invalid">Please enter valid email address.</string>
+    <string name="err_password_min_length">Please enter minimum 6 characters for password.</string>
+    <string name="err_invalid_pass">Password must contain at least one lowercase, one uppercase letter, one number and at least 6 characters.</string>
+    <string name="err_first_name_empty">Please enter first name.</string>
+    <string name="err_last_name_empty">Please enter last name.</string>
+    <string name="err_confirm_password_empty">Please re-enter password.</string>
+    <string name="err_mismatch_password">Password and confirm password should be same.</string>
+    <string name="err_mobile_empty">Please enter mobile number.</string>
+    <string name="err_address_empty">Please enter address.</string>
+    <string name="err_pincode_empty">Please enter pincode.</string>
+    <string name="err_city_empty">Please enter city.</string>
+    <string name="err_state_empty">Please enter state.</string>
+    <string name="err_phone_empty">Please enter phone number.</string>
+    <string name="err_mobile_min_chars">Mobile number should have at least 10 characters.</string>
+    <string name="err_mobile_max_chars">Mobile number can have maximum 12 characters.</string>
+    <string name="err_current_password_empty">Please enter current password.</string>
+    <string name="err_current_password_min_length">Please enter minimum 6 characters for password.</string>
+    <string name="err_new_password_empty">Please enter new password.</string>
+    <string name="err_confirm_new_password_empty">Please re-enter new password.</string>
+    <string name="err_invalid_dob">Invalid date of birth!</string>
+    <string name="err_dob_empty">Please select date of birth.</string>
+    <string name="err_gender_empty">Please select gender.</string>
+    <string name="err_select_terms">Please read and accept terms &amp; conditions to continue.</string>
+    <string name="err_mobile_invalid">Please enter a valid mobile number.</string>
+    <string name="err_otp_empty">Please enter OTP.</string>
+    <string name="err_otp_invalid">Please enter correct OTP.</string>
+
+    <string name="warn_logout">Are you sure want to logout?</string>
+
+    <string name="err_height_empty">Please enter Height.</string>
+    <string name="err_width_empty">Please enter Width.</string>
+    <string name="err_length_empty">Please enter Lenght.</string>
+    <string name="err_weight_empty">Please enter Weight.</string>
+    <string name="err_dimension_empty">Please enter Dimension.</string>
+    <string name="err_delivery_empty">Please select door/self deliver type.</string>
+    <string name="err_pickup_empty">Please enter Pickup Pincode.</string>
+    <string name="err_delivery_picode_empty">Please enter delivery Pincode.</string>
+    <string name="err_pickup_address_empty">Please enter Pickup Address.</string>
+    <string name="err_payment_mode_empty">Please Select Payment.</string>
+    <string name="err_wallet_empty">Please add blance in wallet.</string>
+    <string name="err_porter_empty">Please add porter value.</string>
+    <string name="err_select_porter">Please select porter.</string>
+    <string name="permission_denied">Oops! You denied permission!!</string>
+
+
+    <string name="msg_please_wait">Please wait…</string>
+    <string name="msg_loading">Loading...</string>
+    <string name="msg_back_exit">Press back button again to exit.</string>
+    <!--	dummy strings   -->
+    <string name="dummy_text_small">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</string>
+
+    <!--    Server Errors   -->
+    <string name="msg_update_app_force">You are using an older version of the app. You need to update the app to continue using it.</string>
+    <string name="msg_update_app_optional">You are using an older version of the app. You need to update it. Do you want to update now?</string>
+
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok">OK</string>
+    <string name="retry">Retry</string>
+    <string name="cancel">Cancel</string>
+
+
+    <string name="sign_in">Sign In</string>
+    <string name="continue_with_us">Continue with us</string>
+    <string name="login">Login</string>
+    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="register">Register</string>
+    <string name="join_with_us">Join with us</string>
+    <string name="create_acc">Create an account</string>
+    <string name="username">Full Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="phone_number_optional">Phone Number (Optional)</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="have_an_account">Have an account?</string>
+    <string name="forgot_password_title">Forgot Password</string>
+    <string name="msg_enter_email_">Enter email address to continue</string>
+    <string name="submit">Submit</string>
+    <string name="home">Home</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="insurance">Trip Insurance</string>
+    <string name="profile">My Profile</string>
+    <string name="token">Ticket</string>
+    <string name="chats">Chat</string>
+    <string name="accountsetting">Account Setting</string>
+    <string name="createshipment">Create Shipment</string>
+    <string name="notification">Notification</string>
+    <string name="help">Help</string>
+    <string name="wallet">Wallet</string>
+    <string name="myaddress">My Address</string>
+    <string name="neworder">New Order</string>
+    <string name="pickup">Pick Up Scheduled</string>
+    <string name="undelivered">Undelivered</string>
+    <string name="outfordelivery">Out For Delivery</string>
+    <string name="deliverd">Deliverd</string>
+    <string name="booking_success">BOOKING SET!</string>
+
+
+    <string name="err_no_items_availalbe">No items available</string>
+    <!--    Drawer  -->
+    <string name="search">Notification</string>
+    <string name="edit">Edit</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="logout">Logout</string>
+
+    <string name="warn_camera_permissions_denied">Camera and storage permissions are necessary to capture photos. Do you want to allow it?</string>
+    <string name="rationale_camera_permissions">Camera and storage permissions are necessary to capture photos.</string>
+
+    <string name="finish">Finish</string>
+
+    <string name="skip_pressed">Skip Pressed!!</string>
+    <string name="description">How great is it to travel?
+      To meet new people, see new places, experience different cultures.</string>
+    <string name="title">Travel World</string>
+    <string name="download_start_error">Failed to start download</string>
+
+    <string name="rs">\u20B9 %s</string>
+    <string name="ruppes">\u20B9</string>
+
+    <string name="porter_charge">Total Porter Charge %s</string>
+    <string name="insurance_charge">Total Insurance Charge %s</string>
+    <string name="delivery_challan">Total delivery %s</string>
+    <string name="reverse_trip">Total Reverse Trip %s</string>
+    <string name="gst_charge">Total GST Charge %s</string>
+    <string name="peak_charge">Total Peak Charge %s</string>
+    <string name="fair">Total fair %s</string>
+
+
+    <string name="booking_total">16000/-</string>
+    <string name="booking_service_fee">10000/-</string>
+    <string name="booking_gst">150/-</string>
+    <string name="booking_insurance">5000/-</string>
+
+    <string name="google_map_api_key">AIzaSyD1gjS_pK1wpaiKJq4BLkUKHTVBdLaSTh4</string>
+
+    <string name="notifications_admin_channel_name">easytoship</string>
+    <string name="notifications_admin_channel_description">easytoship</string>
+
+
+
+    <string name="insurance_amt">Upto \u20B9 10000</string>
+
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/menu_profile"
+        android:title="Name"/>
+
+    <item android:id="@+id/menu_profilee"
+        android:title="Profile"/>
+
+    <item android:id="@+id/menu_profileee"
+        android:title="Setting"/>
+
+    <item android:id="@+id/menu_profileeee"
+        android:title="Privacy Policy"/>
+
+
+    <item android:id="@+id/menu_profiele"
+        android:title="Terms and Condition"/>
+
+    <item android:id="@+id/menu_preofile"
+        android:title="Logout"/>
+
+</menu>

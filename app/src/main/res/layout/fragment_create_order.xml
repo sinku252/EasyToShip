@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+        <import type="android.text.Html"/>
+        <variable
+            name="viewmodel"
+            type="com.tws.courier.ui.create_order.CreateOrderViewModel" />
+
+        <variable
+            name="orderPrice"
+            type="com.tws.courier.domain.models.OrderPrice" />
+
+        <variable
+            name="orderValidation"
+            type="com.tws.courier.domain.models.OrderValidation" />
+
+    </data>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:background="#E7E7E7"
+        android:layout_height="match_parent"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".ui.create_order.FragmentCreateOrder" />
+
+
+            <ImageView
+                android:id="@+id/iv_open_drawer"
+                android:padding="10dp"
+                app:srcCompat="@drawable/ic_drawer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+
+                android:paddingRight="30dp"
+                android:paddingLeft="30dp"
+                android:layout_marginTop="?attr/actionBarSize"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.cardview.widget.CardView
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="10dp"
+                    android:layout_centerInParent="true"
+                    app:cardCornerRadius="5dp"
+                    android:layout_marginTop="10dp"
+                    >
+                    <LinearLayout
+
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:textColorHint="@color/colorGrey"
+                            android:theme="@style/TextLabel"
+                            app:boxBackgroundColor="@android:color/transparent">
+
+                            <EditText
+                                android:onClick="@{() -> viewmodel.addFrom()}"
+
+                                android:focusable="false"
+                                android:inputType="text"
+                                android:text="@={viewmodel.fromLocation}"
+                                android:id="@+id/tv_from"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:alpha=".5"
+                                android:background="@android:color/transparent"
+                                android:hint="From"
+                                android:padding="10dp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <View
+                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#EFEFEF"/>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:background="@android:color/transparent"
+                            android:textColorHint="@color/colorGrey"
+                            android:theme="@style/TextLabel"
+                            app:boxBackgroundColor="@android:color/transparent">
+
+                            <EditText
+                                android:onClick="@{() -> viewmodel.addTo()}"
+                                android:focusable="false"
+                                android:background="@android:color/transparent"
+                                android:inputType="text"
+                                android:text="@={viewmodel.toLocation}"
+                                android:id="@+id/tv_to"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:alpha=".5"
+                                android:hint="To"
+                                android:padding="10dp"
+                                />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="10dp"
+                    android:layout_marginTop="?attr/actionBarSize"
+                    android:layout_centerInParent="true"
+                    app:cardCornerRadius="5dp"
+                    >
+
+
+                    <LinearLayout
+                        android:padding="10dp"
+                        android:visibility="@{orderValidation.journeyType==1  ? View.VISIBLE :View.GONE }"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <RadioGroup
+                            android:checkedButton="@={viewmodel.radio_checked}"
+                            android:id="@+id/rb_bike_shipment_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_above="@+id/view_below" >
+
+                            <RadioButton
+                                android:textAllCaps="true"
+                                android:buttonTint="@color/yellow_color"
+                                android:id="@+id/rb_bike_document"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Document" />
+
+                            <RadioButton
+                                android:textAllCaps="true"
+                                android:buttonTint="@color/yellow_color"
+                                android:id="@+id/rb_bike_parcel"
+                                android:layout_width="0dp"
+                                android:layout_weight="0.5"
+                                android:layout_height="wrap_content"
+                                android:text="Parcel" />
+                        </RadioGroup>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:padding="10dp"
+                        android:visibility="@{orderValidation.journeyType==2  ? View.VISIBLE :View.GONE }"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <RadioGroup
+                            android:checkedButton="@={viewmodel.radio_checked}"
+                            android:id="@+id/rb_local_truck_shipment_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_above="@+id/view_below" >
+
+
+                            <RadioButton
+                                android:textAllCaps="true"
+                                android:buttonTint="@color/yellow_color"
+                                android:id="@+id/rb_local_parcel"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Parcel" />
+                        </RadioGroup>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:padding="10dp"
+                        android:visibility="@{orderValidation.journeyType==3  ? View.VISIBLE :View.GONE }"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <RadioGroup
+                            android:checkedButton="@={viewmodel.radio_checked}"
+                            android:id="@+id/rb_domestic_shipment_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_above="@+id/view_below" >
+
+                            <RadioButton
+                                android:textAllCaps="true"
+                                android:visibility="@{orderValidation.domesticValues.domesticType.equalsIgnoreCase(`domesticFlight`)  ? View.VISIBLE :View.GONE }"
+                                android:buttonTint="@color/yellow_color"
+                                android:id="@+id/rb_domestic_document"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Document" />
+
+
+                            <RadioButton
+                                android:textAllCaps="true"
+                                android:buttonTint="@color/yellow_color"
+                                android:id="@+id/rb_domestic_parcel"
+                                android:layout_width="0dp"
+                                android:layout_weight="0.5"
+                                android:layout_height="wrap_content"
+                                android:text="Parcel" />
+                        </RadioGroup>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:padding="10dp"
+                        android:visibility="@{orderValidation.journeyType==4  ? View.VISIBLE :View.GONE }"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <RadioGroup
+                            android:checkedButton="@={viewmodel.radio_checked}"
+                            android:id="@+id/rb_international_shipment_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_above="@+id/view_below" >
+                            <RadioButton
+                                android:textAllCaps="true"
+                                android:buttonTint="@color/yellow_color"
+                                android:id="@+id/rb_international_document"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Document" />
+
+                            <RadioButton
+                                android:textAllCaps="true"
+                                android:buttonTint="@color/yellow_color"
+                                android:id="@+id/rb_international_parcel"
+                                android:layout_width="0dp"
+                                android:layout_weight="0.5"
+                                android:layout_height="wrap_content"
+                                android:text="Parcel" />
+
+                          <!--  <RadioButton
+                                android:buttonTint="@color/yellow_color"
+                                android:id="@+id/rb_international_parcel"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Parcel" />-->
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+        <include
+            android:id="@+id/bottom_sheet"
+            app:viewmodel="@{viewmodel}"
+            app:orderValidation="@{orderValidation}"
+            layout="@layout/bottom_sheet_persistent" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start|left"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@+id/frame_drawer"
+                android:layout_width="280dp"
+                android:layout_height="match_parent"
+                android:background="@color/black"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_drawer"
+                    android:layout_width="280dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</layout>

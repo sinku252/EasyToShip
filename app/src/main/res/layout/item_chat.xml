@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+        <import type="android.text.Html"/>
+        <variable
+            name="item"
+            type="com.tws.courier.domain.models.Chat" />
+
+
+        <!--<variable
+            name="viewModel"
+            type="com.tws.courier.ui.create_shipment.CreateShipmentViewModel.AddressItemViewModel" />-->
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="#E5E5E5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <LinearLayout
+            android:visibility="@{item.sellerType.equals(`admin`)  ? View.VISIBLE: View.GONE }"
+            android:id="@+id/ll_reply"
+            android:background="@drawable/rounded_box_blue"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:textColor="@color/white"
+                android:text="@{item.message}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="@{item.sellerType.equals(`customer`)  ? View.VISIBLE: View.GONE }"
+            android:id="@+id/ll_send"
+            android:layout_marginTop="20dp"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_chat_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_reply">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.message}"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+

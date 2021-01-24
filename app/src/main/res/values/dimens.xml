@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="corner_radius_progress_dialog">10dp</dimen>
+
+    <!--    Buttons     -->
+    <dimen name="buttonRedOneHeight">42dp</dimen>
+    <dimen name="buttonRedOneRadius">8dp</dimen>
+    <dimen name="buttonRedOneTextSize">15sp</dimen>
+    <dimen name="buttonRedOnePadding">12dp</dimen>
+
+    <dimen name="buttonRedTwoHeight">52dp</dimen>
+    <dimen name="buttonRedTwoRadius">26dp</dimen>
+    <dimen name="buttonRedTwoTextSize">17sp</dimen>
+    <dimen name="buttonRedTwoPadding">65dp</dimen>
+
+    <dimen name="buttonGreyOneHeight">22dp</dimen>
+    <dimen name="buttonGreyOneRadius">11dp</dimen>
+    <dimen name="buttonGreyOneTextSize">12sp</dimen>
+    <dimen name="buttonGreyOnePadding">10dp</dimen>
+
+    <!--    Package Capsule     -->
+    <dimen name="capsule_package_title_width">200dp</dimen>
+    <dimen name="capsule_package_height">80dp</dimen>
+    <dimen name="capsule_package_radius">40dp</dimen>
+    <dimen name="capsule_package_text_margin_horizontal">15dp</dimen>
+
+
+    <dimen name="indicator_size">6dp</dimen>
+
+</resources>

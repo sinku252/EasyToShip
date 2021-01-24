@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "75529597354",
+    "firebase_url": "https://monro-tv-a4460.firebaseio.com",
+    "project_id": "monro-tv-a4460",
+    "storage_bucket": "monro-tv-a4460.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:75529597354:android:61cc7a6167baf63a547bd3",
+        "android_client_info": {
+          "package_name": "com.tws.courier"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "75529597354-37m00db7072sajn7ski6ehrjg649g0f9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tws.courier",
+            "certificate_hash": "823b6730e3606f0d143792809ff9e8a9359df421"
+          }
+        },
+        {
+          "client_id": "75529597354-jieil32tjn4qib067kk48e93ub8b2gnh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcun2xK3l6jYV29CDOwx9lzqe4xYaYl1Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "75529597354-jieil32tjn4qib067kk48e93ub8b2gnh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

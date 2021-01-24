@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <data>
+        <variable
+            name="user"
+            type="com.tws.courier.domain.models.User" />
+    </data>
+    <LinearLayout
+        android:id="@+id/general_details_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:orientation="vertical">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+
+                android:elevation="10dp"
+                app:cardCornerRadius="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="30dp"
+                    android:paddingBottom="10dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:textColorHint="@color/colorGrey"
+                        android:theme="@style/TextLabel"
+                        app:boxBackgroundColor="@android:color/transparent">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:hint="Full Name*"
+                            android:padding="10dp"
+                            android:text="@={user.username}"
+                            android:textColor="@color/yellow_color"
+                            android:theme="@style/EditTextTheme" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:textColorHint="@color/colorGrey"
+                        android:theme="@style/TextLabel"
+                        app:boxBackgroundColor="@android:color/transparent">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="20dp"
+                            android:alpha=".8"
+                            android:text="@={user.company_name}"
+                            android:hint="Company Name*"
+                            android:padding="10dp"
+                            android:textColor="@color/yellow_color"
+                            android:theme="@style/EditTextTheme" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:textColorHint="@color/colorGrey"
+                        android:theme="@style/TextLabel"
+                        app:boxBackgroundColor="@android:color/transparent">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="20dp"
+                            android:alpha=".8"
+                            android:text="@={user.gst_no}"
+                            android:hint="GST TIN*"
+                            android:padding="10dp"
+                            android:textColor="@color/yellow_color"
+                            android:theme="@style/EditTextTheme" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:textColorHint="@color/colorGrey"
+                        android:theme="@style/TextLabel"
+                        app:boxBackgroundColor="@android:color/transparent">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="20dp"
+                            android:alpha=".8"
+                            android:text="@={user.pan_no}"
+                            android:hint="PAN Number*"
+                            android:padding="10dp"
+                            android:textColor="@color/yellow_color"
+                            android:theme="@style/EditTextTheme" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:textColorHint="@color/colorGrey"
+                        android:theme="@style/TextLabel"
+                        app:boxBackgroundColor="@android:color/transparent">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="20dp"
+                            android:alpha=".8"
+                            android:text="@={user.email}"
+                            android:hint="Email*"
+                            android:padding="10dp"
+                            android:textColor="@color/yellow_color"
+                            android:theme="@style/EditTextTheme" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:textColorHint="@color/colorGrey"
+                        android:theme="@style/TextLabel"
+                        app:boxBackgroundColor="@android:color/transparent">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="20dp"
+                            android:alpha=".8"
+                            android:text="@={user.city}"
+                            android:hint="City*"
+                            android:padding="10dp"
+                            android:textColor="@color/yellow_color"
+                            android:theme="@style/EditTextTheme" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:textColorHint="@color/colorGrey"
+                        android:theme="@style/TextLabel"
+                        app:boxBackgroundColor="@android:color/transparent">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="20dp"
+                            android:alpha=".8"
+                            android:text="@={user.mobile}"
+                            android:hint="Mobile Number 1*"
+                            android:padding="10dp"
+                            android:textColor="@color/yellow_color"
+                            android:theme="@style/EditTextTheme" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:background="@android:color/transparent"
+                        android:textColorHint="@color/colorGrey"
+                        android:theme="@style/TextLabel"
+                        app:boxBackgroundColor="@android:color/transparent">
+
+                        <EditText
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="20dp"
+                            android:alpha=".8"
+                            android:hint="Mobile Number 2*"
+                            android:padding="10dp"
+                            android:textColor="@color/yellow_color"
+                            android:theme="@style/EditTextTheme" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:textColorHint="@color/colorGrey"
+                        android:theme="@style/TextLabel"
+                        app:boxBackgroundColor="@android:color/transparent">
+
+                        <EditText
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="20dp"
+                            android:alpha=".8"
+                            android:hint="Landline"
+                            android:padding="10dp"
+                            android:textColor="@color/yellow_color"
+                            android:theme="@style/EditTextTheme" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+</layout>

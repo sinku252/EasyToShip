@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="bank"
+            type="com.tws.courier.domain.models.Bank" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/accounting_details_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_margin="10dp"
+            android:elevation="10dp"
+            app:cardCornerRadius="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="30dp"
+                android:paddingBottom="50dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:textColorHint="@color/colorGrey"
+                    android:theme="@style/TextLabel"
+                    app:boxBackgroundColor="@android:color/transparent">
+
+                    <EditText
+                        android:text="@={bank.bankName}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:hint="Bank Name*"
+                        android:padding="10dp"
+                        android:textColor="@color/yellow_color" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:textColorHint="@color/colorGrey"
+                    android:theme="@style/TextLabel"
+                    app:boxBackgroundColor="@android:color/transparent">
+
+                    <EditText
+                        android:text="@={bank.branchName}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:hint="Branch Name*"
+                        android:padding="10dp"
+                        android:textColor="@color/yellow_color" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:textColorHint="@color/colorGrey"
+                    android:theme="@style/TextLabel"
+                    app:boxBackgroundColor="@android:color/transparent">
+
+                    <EditText
+                        android:text="@={bank.branchCity}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:hint="Branch City*"
+                        android:padding="10dp"
+                        android:textColor="@color/yellow_color" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:textColorHint="@color/colorGrey"
+                    android:theme="@style/TextLabel"
+                    app:boxBackgroundColor="@android:color/transparent">
+
+                    <EditText
+                        android:text="@={bank.accountNo}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:hint="Beneficiary Account No."
+                        android:padding="10dp"
+                        android:textColor="@color/yellow_color" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:textColorHint="@color/colorGrey"
+                    android:theme="@style/TextLabel"
+                    app:boxBackgroundColor="@android:color/transparent">
+
+                    <EditText
+                        android:text="@={bank.accountNo}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:alpha=".8"
+                        android:hint="Re-Enter Beneficiary Account No."
+                        android:padding="10dp"
+                        android:textColor="@color/yellow_color"
+                        android:theme="@style/EditTextTheme" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:textColorHint="@color/colorGrey"
+                    android:theme="@style/TextLabel"
+                    app:boxBackgroundColor="@android:color/transparent">
+
+                    <EditText
+                        android:text="@={bank.accountType}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:alpha=".8"
+                        android:hint="Beneficiary Account Type"
+                        android:padding="10dp"
+                        android:textColor="@color/yellow_color"
+                        android:theme="@style/EditTextTheme" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:textColorHint="@color/colorGrey"
+                    android:theme="@style/TextLabel"
+                    app:boxBackgroundColor="@android:color/transparent">
+
+                    <EditText
+                        android:text="@={bank.ifscCode}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:alpha=".8"
+                        android:hint="IFSC Code*"
+                        android:padding="10dp"
+                        android:textColor="@color/yellow_color"
+                        android:theme="@style/EditTextTheme" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:textColorHint="@color/colorGrey"
+                    android:theme="@style/TextLabel"
+                    app:boxBackgroundColor="@android:color/transparent">
+
+                    <EditText
+                        android:text="@={bank.beneficiaryName}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:alpha=".8"
+                        android:hint="Beneficiary Name"
+                        android:padding="10dp"
+                        android:textColor="@color/yellow_color"
+                        android:theme="@style/EditTextTheme" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+</layout>
