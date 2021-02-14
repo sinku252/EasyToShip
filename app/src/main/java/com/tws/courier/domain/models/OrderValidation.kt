@@ -1,6 +1,7 @@
 package com.tws.courier.domain.models
 
 import com.google.android.gms.maps.model.LatLng
+import kotlin.properties.Delegates
 
 data class OrderValidation(
     var journeyType:Int=0,//Bike,Local truck,domestic,internation
@@ -17,6 +18,64 @@ data class OrderValidation(
     var internationalValues: InternationalValues = InternationalValues()
 
 )
+/*{
+
+    var journeyType_: Int by Delegates.observable(journeyType) { prop, old, new ->
+        println("Name changed from $old to $new")
+        journeyType = new
+    }
+
+    var startLatLng_: LatLng? by Delegates.observable(startLatLng) { prop, old, new ->
+        println("Name changed from $old to $new")
+        startLatLng = new
+    }
+
+    var endLatLng_: LatLng? by Delegates.observable(endLatLng) { prop, old, new ->
+        println("Name changed from $old to $new")
+        endLatLng = new
+    }
+
+    var transmissionSpeed_: String by Delegates.observable(transmissionSpeed) { prop, old, new ->
+        println("Name changed from $old to $new")
+        transmissionSpeed = new
+    }
+
+    var paymentMode_: String by Delegates.observable(paymentMode) { prop, old, new ->
+        println("Name changed from $old to $new")
+        paymentMode = new
+    }
+
+    var origin_: String by Delegates.observable(origin) { prop, old, new ->
+        println("Name changed from $old to $new")
+        origin = new
+    }
+
+    var destination_: String by Delegates.observable(destination) { prop, old, new ->
+        println("Name changed from $old to $new")
+        destination = new
+    }
+
+    var bikeValues_: BikeValues by Delegates.observable(bikeValues) { prop, old, new ->
+        println("Name changed from $old to $new")
+        bikeValues = new
+    }
+
+    var localTruckValues_: LocalTruckValues by Delegates.observable(localTruckValues) { prop, old, new ->
+        println("Name changed from $old to $new")
+        localTruckValues = new
+    }
+
+    var domesticValues_: DomesticValues by Delegates.observable(domesticValues) { prop, old, new ->
+        println("Name changed from $old to $new")
+        domesticValues = new
+    }
+
+    var internationalValues_: InternationalValues by Delegates.observable(internationalValues) { prop, old, new ->
+        println("Name changed from $old to $new")
+        internationalValues = new
+    }
+
+}*/
 
 data class BikeValues(
     var fromAddress:String="",

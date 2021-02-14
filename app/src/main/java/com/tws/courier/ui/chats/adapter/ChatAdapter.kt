@@ -27,7 +27,8 @@ class ChatAdapter(private val adapterCallbacks: AdapterCallbacks) :
 
     fun addMsg(sublist: Chat) {
         list.add(sublist)
-        notifyDataSetChanged()
+        notifyItemInserted(list.size - 1);
+       // notifyDataSetChanged()
     }
 
     fun clear() {

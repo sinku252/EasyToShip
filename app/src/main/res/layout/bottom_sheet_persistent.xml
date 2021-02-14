@@ -56,6 +56,15 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     >
+                    <RadioButton
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:id="@+id/rb_domestic_flight"
+                        android:buttonTint="@color/yellow_color"
+                        android:layout_width="wrap_content"
+                        android:paddingRight="20dp"
+                        android:layout_height="wrap_content"
+                        android:text="Flight" />
 
                     <RadioButton
                         android:paddingTop="15dp"
@@ -65,7 +74,7 @@
                         android:layout_width="wrap_content"
                         android:paddingRight="20dp"
                         android:layout_height="wrap_content"
-                        android:text="Truck" />
+                        android:text="Road" />
 
                     <RadioButton
                         android:paddingTop="15dp"
@@ -78,15 +87,7 @@
                         android:layout_height="wrap_content"
                         android:text="Train" />
 
-                    <RadioButton
-                        android:paddingTop="15dp"
-                        android:paddingBottom="15dp"
-                        android:id="@+id/rb_domestic_flight"
-                        android:buttonTint="@color/yellow_color"
-                        android:layout_width="wrap_content"
-                        android:paddingRight="20dp"
-                        android:layout_height="wrap_content"
-                        android:text="Flight" />
+
                 </RadioGroup>
                 <View
                     android:layout_marginTop="3dp"
@@ -504,7 +505,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Bike"
-                        android:textSize="15sp"
+                        android:textSize="@dimen/_15ssp"
                         android:textColor="@color/blue_color"
                        />
 
@@ -538,7 +539,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:textSize="15sp"
+                        android:textSize="@dimen/_15ssp"
                         android:text="Truck"
                         android:textColor="@color/blue_color"
                         />
@@ -573,7 +574,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:textSize="15sp"
+                        android:textSize="@dimen/_15ssp"
                         android:text="Domestic"
                         android:textColor="@color/blue_color"
                       />
@@ -609,7 +610,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="International"
-                        android:textSize="15sp"
+                        android:textSize="@dimen/_12ssp"
                         android:textColor="@color/blue_color"
                       />
 
@@ -673,49 +674,179 @@
 
             </LinearLayout>
 
+            <!--android:visibility="@{viewmodel.step==2  ? View.VISIBLE: View.GONE }"-->
+            <!--android:visibility="@{orderValidation.domesticValues.domesticType.equals(`domesticFlight`) || orderValidation.journeyType==4}"-->
             <LinearLayout
-                android:visibility="@{orderValidation.journeyType==3 &amp;&amp; orderValidation.domesticValues.equals(`domesticFlight`)  ? View.VISIBLE: View.GONE }"
+                android:orientation="vertical"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
 
-                <RadioGroup
-                    android:gravity="center_horizontal"
-                    android:checkedButton="@={viewmodel.transmissionSpeed}"
-                    android:id="@+id/rg"
+
+
+                    <RadioGroup
+                        android:visibility="@{viewmodel.step==2 &amp;&amp; orderValidation.domesticValues.domesticType.equals(`domesticFlight`)  ? View.VISIBLE: View.GONE }"
+                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/rg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checkedButton="@={viewmodel.transmissionSpeed}"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                       >
+
+                      <!--  <RadioButton
+                            android:id="@+id/rb_silver"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/yellow_color"
+                            android:checked="true"
+                            android:padding="10dp"
+                            android:text="Silver" />
+
+                        <RadioButton
+                            android:id="@+id/rb_gold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/yellow_color"
+                            android:padding="10dp"
+                            android:text="Gold" />
+
+                        <RadioButton
+                            android:id="@+id/rb_platinum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/yellow_color"
+                            android:padding="10dp"
+
+                            android:text="Platinum" />-->
+
+
+                    </RadioGroup>
+
+
+                <HorizontalScrollView
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                <RadioGroup
+
+                    android:visibility="@{viewmodel.step==2 &amp;&amp; orderValidation.journeyType==4  ?  View.VISIBLE: View.GONE}"
+
+                    android:id="@+id/rg_international"
+                    android:layout_width="match_parent"
+
                     android:layout_height="wrap_content"
+                    android:checkedButton="@={viewmodel.transmissionSpeed}"
+
                     android:orientation="horizontal"
+
                     >
 
-                    <RadioButton
-                        android:checked="true"
-                        android:padding="10dp"
-                        android:buttonTint="@color/yellow_color"
-                        android:id="@+id/rb_silver"
+                  <!--  <RadioButton
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+
+                        android:buttonTint="@color/yellow_color"
+
+                        android:padding="10dp"
                         android:text="Silver" />
 
                     <RadioButton
-                        android:padding="10dp"
-                        android:buttonTint="@color/yellow_color"
-                        android:id="@+id/rb_gold"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gold" />
+
+                        android:buttonTint="@color/yellow_color"
+
+                        android:padding="10dp"
+                        android:text="Silver" />
 
                     <RadioButton
-                        android:padding="10dp"
-                        android:buttonTint="@color/yellow_color"
-                        android:id="@+id/rb_platinum"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:text="Platinum" />
+                        android:buttonTint="@color/yellow_color"
+
+                        android:padding="10dp"
+                        android:text="Silver" />
+
+                    <RadioButton
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:buttonTint="@color/yellow_color"
+
+                        android:padding="10dp"
+                        android:text="Silver" />-->
+
+
+<!--
+                        <RadioButton
+                            android:id="@+id/rb_international_silver"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:buttonTint="@color/yellow_color"
+
+                            android:padding="10dp"
+                            android:text="Silver" />
+
+                        <RadioButton
+
+                            android:id="@+id/rb_international_gold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/yellow_color"
+
+                            android:padding="10dp"
+                            android:text="Gold" />
+
+                        <RadioButton
+                            android:id="@+id/rb_international_platinum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/yellow_color"
+
+                            android:padding="10dp"
+                            android:text="Platinum" />
+
+
+
+
+
+
+
+                    <RadioButton
+                        android:id="@+id/rb_international_platinum_plus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/yellow_color"
+
+                        android:padding="10dp"
+                        android:text="Platinum Plus" />
+
+                    <RadioButton
+                        android:id="@+id/rb_international_bronze"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/yellow_color"
+
+                        android:padding="10dp"
+                        android:text="Bronze"/>-->
+
+
                 </RadioGroup>
+
+                </HorizontalScrollView>
+
+
 
             </LinearLayout>
 
@@ -814,6 +945,7 @@
                     android:layout_height="wrap_content">
 
                     <ImageButton
+                        android:onClick="@{() -> viewmodel.showContactist(1)}"
                         android:background="@null"
                         app:srcCompat="@drawable/ic_phone_1"
                         android:layout_width="wrap_content"
@@ -824,9 +956,9 @@
                         android:layout_marginLeft="10dp"
                         android:textColor="#000000"
                         android:textSize="12sp"
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
+
 
                 </LinearLayout>
 
@@ -838,6 +970,7 @@
                     android:layout_height="wrap_content">
 
                     <ImageButton
+                        android:onClick="@{() -> viewmodel.showContactist(2)}"
                         android:background="@null"
                         app:srcCompat="@drawable/ic_phone_1"
                         android:layout_width="wrap_content"
@@ -1033,15 +1166,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:gravity="center_vertical"
-                    android:drawableLeft="@drawable/shield"
-                    android:drawablePadding="5dp"
-                    android:text="Insure Your Trip With ACKO Genral Ltd."
-                    android:textColor="#000000"
-                    android:textSize="12sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <ImageView
+                        android:src="@drawable/insurance_shield"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"/>
+
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:text="Insure Your Trip With ACKO Genral Ltd."
+                        android:textColor="#000000"
+                        android:textSize="12sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+
+
 
 
                 <LinearLayout
@@ -1054,6 +1201,7 @@
                         android:layout_height="wrap_content">
 
                         <CheckBox
+                            android:layout_marginLeft="-5dp"
                             android:onCheckedChanged="@{(compoundButton, checked) ->viewmodel.onTypeChecked(orderValidation,checked, 1)}"
                             android:textSize="12sp"
                             android:text="Yes Insure My Trip"
@@ -1129,14 +1277,35 @@
             </LinearLayout>
 
             <LinearLayout
+                android:orientation="vertical"
                 android:visibility="@{viewmodel.step==2  ? View.VISIBLE: View.GONE }"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <LinearLayout
+                    android:id="@+id/ll_payment"
+                    android:onClick="@{() -> viewmodel.showInputDialog(6)}"
+                    android:layout_marginTop="5dp"
+                    android:padding="5dp"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <!--android:text="@{TextUtils.isEmpty(viewmodel.porterValue) ? `Add porter` :`Porter: `+viewmodel.porterValue}"-->
+                    <!---->
+                    <TextView
+                        android:textStyle="bold"
+                        android:text="@{TextUtils.isEmpty(viewmodel.payment) ? `Select Payment` :`Payment: `+viewmodel.payment}"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
 
                 <RadioGroup
+                    android:visibility="gone"
                     android:gravity="center_horizontal"
                     android:checkedButton="@={viewmodel.paymentMode}"
                     android:id="@+id/rb_payment"
@@ -1203,6 +1372,7 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:onClick="@{() -> viewmodel.showInputDialog(7)}"
                             android:layout_marginRight="5dp"
                             android:background="@null"
                             app:srcCompat="@drawable/ic_info"
@@ -1233,7 +1403,7 @@
                             android:text="@{orderPrice.totalAmountPrice}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
-
+                        <!--android:text="@{orderPrice.totalAmountPrice}"-->
                     </LinearLayout>
 
 

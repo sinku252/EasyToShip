@@ -45,15 +45,31 @@ class OrdersFragment : HomeBaseFragment<OrdersViewModel, FragmentOrderBinding>()
     private var status: Int = 0
 
     val adapter = OrderAdapter(
-        object : OrderAdapter.AdapterCallbacks {
+        object : OrderAdapter.AdapterCallbacks
+        {
+            override fun onOrderViewClicked(order: Order)
+            {
+
+            }
+
+            override fun onOrderRescheduleClicked(order: Order) {
+
+            }
+
+            override fun onOrderCancelClicked(order: Order) {
+
+            }
+
+        }
+        /*object : OrderAdapter.AdapterCallbacks {
             override fun onSelectClicked(order: Order) {
-                //TODO("Not yet implemented")
+
             }
 
             override fun onEditDeleteClicked(order: Order) {
-                TODO("Not yet implemented")
+
             }
-        })
+        }*/)
 
 
    /* val adapter = OrderAdapter(

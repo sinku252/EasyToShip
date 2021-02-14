@@ -4,33 +4,35 @@ import android.Manifest
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.database.Cursor
+import android.location.Geocoder
 import android.location.Location
-import android.location.LocationListener
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.provider.ContactsContract
+import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.inputmethod.InputMethodManager
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
+import androidx.loader.content.CursorLoader
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.monrotv.ui.dashboard.adapters.DrawerAdapter
-import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -53,13 +55,18 @@ import com.tws.courier.databinding.FragmentCreateOrderBinding
 import com.tws.courier.domain.annotations.InputErrorType
 import com.tws.courier.domain.base.BaseDrawerFragment
 import com.tws.courier.domain.base.BaseFragment
-import com.tws.courier.domain.models.OrderSuccess
-import com.tws.courier.domain.models.OrderValidation
+import com.tws.courier.domain.base.SingleActionEvent
+import com.tws.courier.domain.models.*
+import com.tws.courier.domain.utils.Utils
 import com.tws.courier.ui.home.base.HomeBaseDrawerFragment
-import com.tws.courier.ui.home.base.HomeBaseFragment
 import kotlinx.android.synthetic.main.common_input_dialog.view.*
-
+import kotlinx.android.synthetic.main.common_input_dialog.view.common_dialog_title
 import kotlinx.android.synthetic.main.dimenstion_dialog.view.*
+import kotlinx.android.synthetic.main.dimenstion_dialog.view.button_ok
+import kotlinx.android.synthetic.main.dimenstion_dialog.view.text_title
+import kotlinx.android.synthetic.main.payment_dialog.view.*
+import kotlinx.android.synthetic.main.price_dialog.view.*
+import kotlinx.android.synthetic.main.weight_input_dialog.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -119,25 +126,51 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
                     33 -> { // nothing yet
                         //viewModel.requestDashboardData()
                         //  fragmentListener?.navigateToDashboardFragment()
+                        fragmentListener?.navigateToDashboardFragment()
                     }
                     34 -> {
-                        fragmentListener?.navigateToCreateShipment()
+                        //fragmentListener?.navigateToCreateShipment()
+                        fragmentListener?.navigateToDashboardFragment()
                     }
                     35 -> {
-                        fragmentListener?.navigateToTokenFragment()
+                        fragmentListener?.navigateToDashboardHomeFragment()
                     }
                     36 -> {
-                        fragmentListener?.navigateToChatFragment()
+                        fragmentListener?.navigateToAccountSetting()
                     }
                     37 -> {
-                        fragmentListener?.navigateToDashboardHomeFragment()
+                        fragmentListener?.navigateToWallet()
                     }
                     38 -> {
                         fragmentListener?.navigateToProfileFragment()
                     }
                     39 -> {
+                        fragmentListener?.navigateToChatFragment()
+                    }
+                    40 -> {
+                        //shareApp(activity)
+                        fragmentListener?.navigateToTokenFragment()
+                        // fragmentListener?.navigateToNotificationFragment()
+                    }
+                    41 -> {
+                        Utils.shareApp(activity)
+                    }
+                    42 -> {
                         fragmentListener?.navigateToNotificationFragment()
                     }
+                    43 -> {
+                        //contact us
+                    }
+                    44 -> {
+                        showMessageDialog(getString(R.string.app_name),
+                            getString(R.string.warn_logout),
+                            View.OnClickListener {
+                                mPreference?.isLogin = false
+                                fragmentListener?.logout()
+                            },
+                            View.OnClickListener { })
+                    }
+
 
                     else -> showMessageDialog("Coming soon...")
                 }
@@ -166,6 +199,8 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
                 if (!isAutoCompleteLocation) {
                     location = loc
                     latLng = LatLng(location.latitude, location.longitude)
+                    orderValidation.startLatLng=latLng
+                    viewBinding.tvFrom.setText(getCityName(latLng))
                     assignToMap()
                 }
             }
@@ -218,8 +253,11 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
 //        AppDatePickerDialog.createAndShowDialog()
     }
 
+
     private fun observeLiveData()
     {
+        println(orderValidation)
+
         viewModel.navigateToPlace.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 //fragmentListener?.navigateToRegisterFragment()
@@ -316,6 +354,7 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
 
         viewModel.domestic.observe(viewLifecycleOwner, Observer {
             if (it != 1) {
+
                 if (viewBinding.bottomSheet.rbDomesticTruck.id == it) {
                     orderValidation.domesticValues.domesticType = "domesticTruck"
                 } else if (viewBinding.bottomSheet.rbDomesticTrain.id == it) {
@@ -325,8 +364,17 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
 //                    viewBinding.viewmodel.isDocumentNeeded=true
                 }
                 //   viewBinding.viewmodel?.step = it
+
+                /*    orderValidation.domesticValues.domesticTruckValues?.shipmentType=""
+                orderValidation.domesticValues.domesticTrainValues?.shipmentType=""
+                orderValidation.domesticValues.domesticFlightValues?.shipmentType=""*/
+
+                viewModel.radio_checked.postValue(viewModel.radio_checked.value)
                 viewBinding.orderValidation = orderValidation
-                viewBinding.viewmodel = viewBinding?.viewmodel
+                //  viewBinding.orderValidation =  viewBinding?.orderValidation
+                viewBinding.bottomSheet.orderValidation = viewBinding?.orderValidation
+
+                //viewBinding.viewmodel?.radio_checked?.postValue(viewBinding.radio_checked)
 
             }
         })
@@ -338,6 +386,7 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
                 } else if (viewBinding.bottomSheet.rbExport.id == it) {
                     orderValidation.internationalValues.importExport = "export"
                 }
+                viewBinding.orderValidation = orderValidation
             }
         })
         viewModel.personalCommercial.observe(viewLifecycleOwner, Observer {
@@ -380,7 +429,22 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
                     } else if (viewBinding.bottomSheet.rbCommercial.id == it) {
                         orderValidation.internationalValues.personalOrCommercial = "commercial"
                     }
+                } else {
+                    var value = ""
+                    if (viewBinding.bottomSheet.rbPersonal.id == it) {
+                        value = "personal"
+                    } else if (viewBinding.bottomSheet.rbCommercial.id == it) {
+                        value = "commercial"
+                    }
+
+                    orderValidation.localTruckValues.personalOrCommercial = value
+                    orderValidation.domesticValues.domesticTruckValues?.personalOrCommercial = value
+                    orderValidation.domesticValues.domesticTrainValues?.personalOrCommercial = value
+                    orderValidation.domesticValues.domesticFlightValues?.personalOrCommercial =
+                        value
+                    orderValidation.internationalValues.personalOrCommercial = value
                 }
+
 
                 viewBinding?.orderValidation = orderValidation
                 viewBinding.bottomSheet.orderValidation = viewBinding?.orderValidation
@@ -426,6 +490,13 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
             }
         })
 
+        viewModel.showContactList.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                val intent = Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI)
+                startActivityForResult(intent, it)
+            }
+        })
+
         viewModel.showInputDialog.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 if (it == 1)
@@ -433,11 +504,16 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
                 else if (it == 2)
                     showInputBox(it, "Delivery Mobile Number", "Mobile Number")
                 else if (it == 3)
-                    showInputBox(it, "Weight", "Enter Weight")
+                    //showWeightBox()
+                    showInputBox(it, "Weight(kg)", "Enter Weight")
                 else if (it == 4)
                     showInputBox(it, "Porter", "Enter Number of Porter")
                 else if (it == 5)
-                    showDimentionBox(it, "Dimension", "Enter Number of Porter")
+                    showDimentionBox(it, "Dimensions (cm)", "Enter Number of Porter")
+                else if (it == 6)
+                    showPaymentBox(it, "Payment", "Select Payment")
+                else if (it == 7)
+                    showPriceBox(viewBinding.orderPrice!!)
             }
         })
 
@@ -489,6 +565,10 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
                             orderValidation.domesticValues.domesticTruckValues?.dc = "0"
                     }
                 }
+
+                if (viewModel.step == 2)
+                    view?.let { it1 -> viewModel.btnClick(it1, 1) }
+
                 viewBinding?.orderValidation = orderValidation
                 viewBinding.bottomSheet.orderValidation = viewBinding?.orderValidation
             }
@@ -525,7 +605,6 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
                 }
 
 
-
                 viewBinding?.orderValidation = orderValidation
                 viewBinding.bottomSheet.orderValidation = viewBinding?.orderValidation
 
@@ -533,16 +612,85 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
         })
 
         viewModel.transmissionSpeed.observe(viewLifecycleOwner, Observer {
-            if (it != 1) {
-                if (viewBinding.bottomSheet.rbSilver.id == it) {
-                    orderValidation.transmissionSpeed = "silver"
-                } else if (viewBinding.bottomSheet.rbGold.id == it) {
-                    orderValidation.transmissionSpeed = "gold"
-                } else if (viewBinding.bottomSheet.rbPlatinum.id == it) {
-                    orderValidation.transmissionSpeed = "platinum"
+            if (it > 0) {
+                Log.e("gdgsdg", "" + it)
+                var orderPrice: OrderPrice? = viewBinding?.orderPrice
+                var totalWeightPriceList: List<TotalWeightPrice>
+                if (orderValidation.journeyType == 3)
+                    totalWeightPriceList = orderPrice?.totalWeightPriceNational!!
+                else
+                    totalWeightPriceList = orderPrice?.totalWeightPriceInternational!!
+
+                if (totalWeightPriceList.size > 3) {
+                    if (it == 100) {
+                        orderValidation.transmissionSpeed = totalWeightPriceList.get(0).type
+                       /* viewModel.orderPriceCalculted = getOrderPriceByRadio(0,
+                            orderPrice,
+                            orderValidation)*/
+                        if (viewModel.step == 2)
+                            view?.let { it1 -> viewModel.btnClick(it1, 1) }
+                    } else if (it == 101) {
+                        orderValidation.transmissionSpeed = totalWeightPriceList.get(1).type
+                        /*viewModel.orderPriceCalculted = getOrderPriceByRadio(1,
+                            orderPrice,
+                            orderValidation)*/
+                        if (viewModel.step == 2)
+                            view?.let { it1 -> viewModel.btnClick(it1, 1) }
+                    } else if (it == 102) {
+                        orderValidation.transmissionSpeed = totalWeightPriceList.get(2).type
+                      /*  viewModel.orderPriceCalculted = getOrderPriceByRadio(2,
+                            orderPrice,
+                            orderValidation)*/
+                        if (viewModel.step == 2)
+                            view?.let { it1 -> viewModel.btnClick(it1, 1) }
+                    } else if (it == 103) {
+                        orderValidation.transmissionSpeed = totalWeightPriceList.get(3).type
+                        /*viewModel.orderPriceCalculted = getOrderPriceByRadio(3,
+                            orderPrice,
+                            orderValidation)*/
+                        if (viewModel.step == 2)
+                            view?.let { it1 -> viewModel.btnClick(it1, 1) }
+                    } else if (it == 104) {
+                        orderValidation.transmissionSpeed = totalWeightPriceList.get(4).type
+                      /*  viewModel.orderPriceCalculted = getOrderPriceByRadio(4,
+                            orderPrice,
+                            orderValidation)*/
+                        if (viewModel.step == 2)
+                            view?.let { it1 -> viewModel.btnClick(it1, 1) }
+                    }
+                } else {
+                    if (it == 100) {
+                        orderValidation.transmissionSpeed = totalWeightPriceList.get(0).type
+                      /*  viewModel.orderPriceCalculted = getOrderPriceByRadio(0,
+                            orderPrice,
+                            orderValidation)*/
+                        if (viewModel.step == 2)
+                            view?.let { it1 -> viewModel.btnClick(it1, 1) }
+                    } else if (it == 101) {
+                        orderValidation.transmissionSpeed = totalWeightPriceList.get(1).type
+                      /*  viewModel.orderPriceCalculted = getOrderPriceByRadio(1,
+                            orderPrice,
+                            orderValidation)*/
+                        if (viewModel.step == 2)
+                            view?.let { it1 -> viewModel.btnClick(it1, 1) }
+                    } else if (it == 102) {
+                        orderValidation.transmissionSpeed = totalWeightPriceList.get(2).type
+                        /*viewModel.orderPriceCalculted = getOrderPriceByRadio(2,
+                            orderPrice,
+                            orderValidation)*/
+                        if (viewModel.step == 2)
+                            view?.let { it1 -> viewModel.btnClick(it1, 1) }
+                    }
                 }
+
+
+
                 viewBinding?.orderValidation = orderValidation
                 viewBinding.bottomSheet.orderValidation = viewBinding?.orderValidation
+                viewBinding.bottomSheet.viewmodel = viewModel
+
+
+
             }
         })
 
@@ -563,8 +711,31 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
 
         viewModel.onOrderPriceSuccessful.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
+
+
+              //  viewModel.orderPriceCalculted = getOrderPriceByType(orderValidation, it)
+
                 viewBinding.orderPrice = it
                 viewBinding.bottomSheet.orderPrice = viewBinding?.orderPrice
+                viewBinding.bottomSheet.viewmodel = viewModel
+
+
+                if (orderValidation.domesticValues.domesticType.equals("domesticFlight")) {
+                    if(viewBinding.bottomSheet.rg.childCount==0)
+                    {
+                        var radioGroup: RadioGroup = createRadioButton(viewBinding.bottomSheet.rg, it)
+                        viewModel.transmissionSpeed.postValue(radioGroup.getChildAt(0).id)
+                    }
+                } else if (orderValidation.journeyType == 4) {
+                    if(viewBinding.bottomSheet.rgInternational.childCount==0)
+                    {
+                        var radioGroup: RadioGroup =
+                            createRadioButton(viewBinding.bottomSheet.rgInternational,
+                                it)
+                        viewModel.transmissionSpeed.postValue(radioGroup.getChildAt(0).id)
+                    }
+                }
+
             }
         })
 
@@ -589,9 +760,12 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
 
         viewModel.navigateToInsurance.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
-               fragmentListener?.navigateToInsurance()
+                fragmentListener?.navigateToInsurance()
             }
         })
+
+
+
     }
 
 
@@ -841,9 +1015,94 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
 
 
     }
+
+    fun showPriceBox(orderPrice: OrderPrice) {
+
+        val messageBoxView = LayoutInflater.from(activity).inflate(R.layout.price_dialog,
+            null)
+        val messageBoxBuilder = activity?.let { AlertDialog.Builder(it).setView(messageBoxView) }
+        val  messageBoxInstance = messageBoxBuilder?.show()
+        messageBoxView.tv_order_fair.text=orderPrice.totalFair
+        messageBoxView.tv_order_insurance.text=orderPrice.totalInsuranceCharge
+        messageBoxView.tv_order_porter.text=orderPrice.totalPorterCharge
+        messageBoxView.tv_order_reverse.text=orderPrice.totalReverseTrip
+        messageBoxView.tv_order_delivery_challan.text=orderPrice.totalDeliveryChallan
+        messageBoxView.tv_order_gst.text=orderPrice.totalGstCharge
+        messageBoxView.tv_order_peak.text=orderPrice.totalPeakCharge
+        messageBoxView.tv_order_total.text=getString(R.string.rs, orderPrice.totalAmountPrice)
+
+        messageBoxView.price_dialog_ok.setOnClickListener(){
+            messageBoxInstance?.dismiss()
+        }
+
+    }
+
+    fun showWeightBox() {
+
+        val messageBoxView = LayoutInflater.from(activity).inflate(R.layout.weight_input_dialog,
+            null)
+        val messageBoxBuilder = activity?.let { AlertDialog.Builder(it).setView(messageBoxView) }
+        val  messageBoxInstance = messageBoxBuilder?.show()
+
+        //var type=orderValidation.journeyType
+        var weight:String="1"
+        if(orderValidation.journeyType==3)
+        {
+            if(orderValidation.domesticValues.domesticType.equals("domesticFlight"))
+            {
+                if(orderValidation.domesticValues.domesticFlightValues?.equals("document")!!)
+                {
+                    weight="1"
+                }
+                else if(orderValidation.domesticValues.domesticFlightValues?.equals("parcel")!!)
+                {
+                    weight="100"
+                }
+            }
+        }
+        else if(orderValidation.journeyType==4)
+        {
+            if(orderValidation.internationalValues.equals("document"))
+            {
+                weight="1"
+            }
+            else if(orderValidation.internationalValues.equals("parcel"))
+            {
+                weight="100"
+            }
+        }
+
+
+        messageBoxView.weight.setTextOrEmpty(weight)
+
+
+        messageBoxView.decrement.setOnClickListener()
+        {
+
+            messageBoxView.weight.setTextOrEmpty(changeWeight(weight,messageBoxView.weight.text.toString(),2).toString())
+
+        }
+
+        messageBoxView.increment.setOnClickListener()
+        {
+            messageBoxView.weight.setTextOrEmpty(changeWeight(weight,messageBoxView.weight.text.toString(),1).toString())
+        }
+
+
+        messageBoxView.weight_ok.setOnClickListener(){
+            viewBinding.viewmodel?.weight=messageBoxView.et_input.text.toString()
+            viewBinding.viewmodel=viewBinding.viewmodel
+            viewBinding.bottomSheet.viewmodel = viewBinding?.viewmodel
+            messageBoxInstance?.dismiss()
+        }
+
+    }
+
+
     fun showInputBox(type: Int, title: String, hint: String){
 
-        val messageBoxView = LayoutInflater.from(activity).inflate(R.layout.common_input_dialog, null)
+        val messageBoxView = LayoutInflater.from(activity).inflate(R.layout.common_input_dialog,
+            null)
         val messageBoxBuilder = activity?.let { AlertDialog.Builder(it).setView(messageBoxView) }
 
         if(type==4)
@@ -861,16 +1120,58 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
             /*fragmentListener?.navigateToPaymentActivity("100")
             messageBoxInstance?.dismiss()*/
             if(type==1)
-                viewBinding.viewmodel?.pickupMobileNumber=messageBoxView.et_input.text.toString()
+            {
+                if (TextUtils.isEmpty(messageBoxView.et_input.text.trim())) {
+                    showToastShort= AppManager.getString(R.string.err_phone_empty)
+                }
+                else if (messageBoxView.et_input.text.length!=10)
+                {
+                    showToastShort= AppManager.getString(R.string.err_mobile_min_chars)
+                }
+                else if(!Utils.isValidPhoneNumber(messageBoxView.et_input.text.trim().toString())) {
+                    showToastShort= AppManager.getString(R.string.err_mobile_min_chars)
+                }
+                else
+                {
+                    viewBinding.viewmodel?.pickupMobileNumber=messageBoxView.et_input.text.toString()
+                }
+            }
             else if(type==2)
-                viewBinding.viewmodel?.deliveryMobileNumber=messageBoxView.et_input.text.toString()
+            {
+                if (TextUtils.isEmpty(messageBoxView.et_input.text.trim())) {
+                    showToastShort= AppManager.getString(R.string.err_phone_empty)
+                }
+                else if (messageBoxView.et_input.text.length!=10)
+                {
+                    showToastShort= AppManager.getString(R.string.err_mobile_min_chars)
+                }
+                else if(!Utils.isValidPhoneNumber(messageBoxView.et_input.text.toString())) {
+                    showToastShort= AppManager.getString(R.string.err_mobile_min_chars)
+                }
+                else
+                {
+                    viewBinding.viewmodel?.deliveryMobileNumber=messageBoxView.et_input.text.toString()
+                }
+            }
             else if(type==3)
-                viewBinding.viewmodel?.weight=messageBoxView.et_input.text.toString()
+            {
+                if (TextUtils.isEmpty(messageBoxView.et_input.text.trim())) {
+                    showToastShort= AppManager.getString(R.string.err_weight_empty)
+                }
+                else
+                {
+                    viewBinding.viewmodel?.weight=messageBoxView.et_input.text.toString()
+                }
+            }
             else if(type==4)
                 if(!TextUtils.isEmpty(messageBoxView.et_input.text.toString().trim()))
                     viewBinding.viewmodel?.porterValue=messageBoxView.et_input.text.toString()
                 else
                     viewBinding.bottomSheet.cbPorter.isChecked=false
+
+
+            if(viewModel.step==2)
+                viewModel.btnClick(it, 1)
 
 
             viewBinding.viewmodel=viewBinding.viewmodel
@@ -910,6 +1211,9 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
                 var width:String=messageBoxView.et_item_width.text.toString()
                 var length:String=messageBoxView.et_item_length.text.toString()
 
+                if(viewModel.step==2)
+                viewModel.btnClick(it, 1)
+
                 viewBinding.viewmodel?.dimension=height+"x"+width+"x"+length
                 viewBinding.viewmodel=viewBinding.viewmodel
                 viewBinding.bottomSheet.viewmodel = viewBinding?.viewmodel
@@ -918,6 +1222,57 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
 
         }
     }
+
+    fun showPaymentBox(type: Int, title: String, hint: String){
+
+        val messageBoxView = LayoutInflater.from(activity).inflate(R.layout.payment_dialog, null)
+        val messageBoxBuilder = activity?.let { AlertDialog.Builder(it).setView(messageBoxView) }
+
+        //messageBoxView.et_input.hint=hint
+        messageBoxView.text_title.text=title
+
+        val  messageBoxInstance = messageBoxBuilder?.show()
+
+        //set Listener
+        messageBoxView.button_ok.setOnClickListener()
+        {
+
+
+            val selectedId: Int = messageBoxView.rb_payment.getCheckedRadioButtonId()
+            var radioButton = messageBoxView.findViewById(selectedId) as RadioButton
+
+            var paymentMode:String=""
+
+
+            if (radioButton.id==R.id.rb_cod)
+            {
+                paymentMode="Cash On Delivery (cod)"
+                orderValidation.paymentMode="cod"
+            }
+            else if (radioButton.id==R.id.rb_cop)
+            {
+                paymentMode="Cash On Pickup (cop)"
+                orderValidation.paymentMode="cop"
+            }
+            else if (radioButton.id==R.id.rb_wallet)
+            {
+                paymentMode="wallet"
+                orderValidation.paymentMode="wallet"
+            }
+
+            viewBinding.orderValidation=orderValidation
+            viewBinding.viewmodel?.payment=paymentMode
+            viewBinding.viewmodel=viewBinding.viewmodel
+            viewBinding.orderValidation=viewBinding.orderValidation
+            viewBinding.bottomSheet.viewmodel = viewBinding?.viewmodel
+            viewBinding.bottomSheet.orderValidation = viewBinding?.orderValidation
+            messageBoxInstance?.dismiss()
+
+
+
+        }
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
@@ -968,6 +1323,37 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
             }
             return
         }
+        else if (requestCode == 1) {
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    //Utils.shareApp(activity)
+                    data?.let{
+                        activity?.let{
+                            viewBinding.viewmodel?.pickupMobileNumber =Utils.contactPicked(activity,data)
+                            viewBinding.viewmodel = viewBinding.viewmodel
+                            viewBinding.bottomSheet.viewmodel = viewBinding?.viewmodel
+                    }
+
+                    }
+
+                }
+                Activity.RESULT_CANCELED -> {
+                    // The user canceled the operation.
+                }
+            }
+        }
+        else if (requestCode == 2) {
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    viewBinding.viewmodel?.deliveryMobileNumber =Utils.contactPicked(activity,data);
+                    viewBinding.viewmodel = viewBinding.viewmodel
+                    viewBinding.bottomSheet.viewmodel = viewBinding?.viewmodel
+                }
+                Activity.RESULT_CANCELED -> {
+                    // The user canceled the operation.
+                }
+            }
+        }
         super.onActivityResult(requestCode, resultCode, data)
     }
 
@@ -999,5 +1385,141 @@ class FragmentCreateOrder : HomeBaseDrawerFragment<CreateOrderViewModel, Fragmen
     }
 
 
+
+    private fun createRadioButton(rg: RadioGroup, orderPrice: OrderPrice) :RadioGroup{
+        var totalWeightPriceList: List<TotalWeightPrice>
+        if(rg.id==R.id.rg)
+            totalWeightPriceList= orderPrice.totalWeightPriceNational!!
+        else
+            totalWeightPriceList= orderPrice.totalWeightPriceInternational!!
+        rg.removeAllViews()
+        for (i in 0 until totalWeightPriceList.size) {
+            if(totalWeightPriceList.get(i).value!=null && !totalWeightPriceList.get(i).value.equals(
+                    "0"))
+            {
+                val radioButton = RadioButton(activity)
+                radioButton.text = totalWeightPriceList.get(i).type.toUpperCase()
+                radioButton.id = 100+i
+                radioButton.setPadding(10, 10, 10, 10)
+
+                if(Build.VERSION.SDK_INT>=21)
+                    radioButton.buttonTintList=activity?.getResources()?.getColorStateList(R.color.yellow_color)
+                rg.addView(radioButton)
+            }
+        }
+        return  rg
+
+    }
+
+
+    fun getOrderPriceByType(orderValidation: OrderValidation, orderPrice: OrderPrice):String
+    {
+        var price:String=""
+        if(orderValidation.journeyType==3 && orderValidation.domesticValues.domesticType.equals("domesticFlight"))
+            price= orderPrice.totalWeightPriceNational!!.get(0).value
+        else if(orderValidation.journeyType==4)
+        {
+            if(orderPrice.totalWeightPriceInternational!!.get(0).value!=null && !orderPrice.totalWeightPriceInternational!!.get(
+                    0).value.equals("0"))
+            {
+                price= orderPrice.totalWeightPriceInternational!!.get(0).value
+            }
+            else
+            {
+                price= orderPrice.totalWeightPriceInternational!!.get(1).value
+            }
+        }
+
+        else
+            price= orderPrice.totalAmountPrice
+
+        return price
+    }
+
+    fun getOrderPriceByRadio(
+        position: Int,
+        orderPrice: OrderPrice,
+        orderValidation: OrderValidation
+    ):String
+    {
+        var price:String=""
+        if(orderValidation.journeyType==3 && orderValidation.domesticValues.domesticType.equals("domesticFlight"))
+            price= orderPrice.totalWeightPriceNational!!.get(position).value
+        else if(orderValidation.journeyType==4)
+            price= orderPrice.totalWeightPriceInternational!!.get(position).value
+
+        return price
+    }
+
+
+
+    fun getCityName(latLng: LatLng):String
+    {
+        val geocoder = Geocoder(activity)
+        val list = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+        return list[0].locality
+       /* val geocoder = Geocoder(activity, Locale.getDefault())
+        val addresses: List<Address> = geocoder.getFromLocation(MyLat, MyLong, 1)
+        val cityName: String = addresses[0].getAddressLine(0)
+        val stateName: String = addresses[0].getAddressLine(1)
+        val countryName: String = addresses[0].getAddressLine(2)
+        return cityName*/
+    }
+
+    fun changeWeight(increment:String,weight:String, type: Int):Int
+    {
+        var maxWeight:Int=0
+        if(orderValidation.journeyType==1)
+        {
+            if(orderValidation.bikeValues.shipmentType.equals("document"))
+            {
+                maxWeight=10
+            }
+            else if(orderValidation.bikeValues.shipmentType.equals("parcel"))
+            {
+                maxWeight=15
+            }
+        }
+        else if(orderValidation.journeyType==3)
+        {
+            if(orderValidation.domesticValues.domesticType.equals("domesticFlight"))
+            {
+                if(orderValidation.domesticValues.domesticFlightValues?.equals("document")!!)
+                {
+                    maxWeight=5
+                }
+                else if(orderValidation.domesticValues.domesticFlightValues?.equals("parcel")!!)
+                {
+                    maxWeight=1000
+                }
+            }
+        }
+        else if(orderValidation.journeyType==4)
+        {
+            if(orderValidation.internationalValues.equals("document"))
+            {
+                maxWeight=5
+            }
+            else if(orderValidation.internationalValues.equals("parcel"))
+            {
+                maxWeight=1000
+            }
+        }
+
+        var weightInt=weight.toInt()
+        if(type==1)
+        {
+            if(maxWeight!=weightInt)
+            weightInt=weightInt+increment.toInt();
+        }
+        else
+        {
+            if(weightInt>0)
+            {
+                weightInt=weightInt-increment.toInt();
+            }
+        }
+        return weightInt
+    }
 
 }

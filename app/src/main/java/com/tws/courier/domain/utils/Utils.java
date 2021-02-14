@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -20,9 +21,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.Patterns;
 import android.util.TypedValue;
 import android.view.View;
@@ -30,6 +33,8 @@ import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.RawRes;
 
+import com.tws.courier.BuildConfig;
+import com.tws.courier.R;
 import com.tws.courier.domain.models.OrderValidation;
 
 import java.io.BufferedReader;
@@ -48,6 +53,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * The type Utils.
@@ -316,6 +323,16 @@ public class Utils {
         context.startActivity(intent);
     }
 
+    public static void shareApp(Context context)
+    {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT,
+                "Hey check out "+context.getString(R.string.app_name)+": https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID);
+        sendIntent.setType("text/plain");
+        context.startActivity(sendIntent);
+    }
+
 
 
 
@@ -372,5 +389,46 @@ String type="";
             type="flight";
         }
         return type;
+    }
+
+    public static String contactPicked(Context context,Intent data) {
+
+        Uri uri;
+        Cursor cursor1, cursor2;
+        String TempNameHolder, tempNumberHolder, TempContactID, IDresult = "" ;
+        int IDresultHolder ;
+
+        uri = data.getData();
+
+        cursor1 = context.getContentResolver().query(uri, null, null, null, null);
+
+        if (cursor1.moveToFirst()) {
+
+            TempNameHolder = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+
+            TempContactID = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts._ID));
+
+            IDresult = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+
+            IDresultHolder = Integer.valueOf(IDresult) ;
+
+            if (IDresultHolder == 1) {
+
+                cursor2 = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + TempContactID, null, null);
+
+                while (cursor2.moveToNext()) {
+
+                    tempNumberHolder = cursor2.getString(cursor2.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+                    return tempNumberHolder;
+                    /*name.setText(TempNameHolder);
+
+                    number.setText(TempNumberHolder);*/
+
+                }
+            }
+
+        }
+        return null;
     }
 }

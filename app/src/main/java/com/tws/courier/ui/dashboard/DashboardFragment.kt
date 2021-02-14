@@ -19,6 +19,8 @@ import com.tws.courier.R
 import com.tws.courier.databinding.FragmentDashboardBinding
 import com.tws.courier.domain.base.BaseDrawerFragment
 import com.tws.courier.domain.models.HomeSlider
+import com.tws.courier.domain.utils.Utils.shareApp
+import com.tws.courier.showMessageDialog
 import com.tws.courier.ui.create_order.MapsActivity
 import com.tws.courier.ui.dashboard.adapters.ImageSliderAdapter
 import com.tws.courier.ui.home.base.HomeBaseDrawerFragment
@@ -60,7 +62,6 @@ class DashboardFragment : HomeBaseDrawerFragment<DashboardViewModel, FragmentDas
         object : DrawerAdapter.DrawerAdapterCallbacks {
             override fun onDrawerItemClicked(drawerItem: DrawerAdapter.DrawerItem) {
                 closeDrawer()
-
                 when (drawerItem.id) {
                     33 -> { // nothing yet
                         //viewModel.requestDashboardData()
@@ -70,20 +71,41 @@ class DashboardFragment : HomeBaseDrawerFragment<DashboardViewModel, FragmentDas
                         fragmentListener?.navigateToCreateShipment()
                     }
                     35 -> {
-                        fragmentListener?.navigateToTokenFragment()
+                        fragmentListener?.navigateToDashboardHomeFragment()
                     }
                     36 -> {
-                        fragmentListener?.navigateToChatFragment()
+                        fragmentListener?.navigateToAccountSetting()
                     }
                     37 -> {
-                        fragmentListener?.navigateToDashboardHomeFragment()
+                        fragmentListener?.navigateToWallet()
                     }
                     38 -> {
                         fragmentListener?.navigateToProfileFragment()
                     }
                     39 -> {
+                        fragmentListener?.navigateToChatFragment()
+                    }
+                    40 -> {
+                        //shareApp(activity)
+                       fragmentListener?.navigateToTokenFragment()
+                       // fragmentListener?.navigateToNotificationFragment()
+                    }
+                    41 -> {
+                        shareApp(activity)
+                    }
+                    42 -> {
                         fragmentListener?.navigateToNotificationFragment()
                     }
+                    43 -> {
+                        //contact us
+                    }
+                    44 -> {
+                        showMessageDialog(getString(R.string.app_name), getString(R.string.warn_logout),
+                            View.OnClickListener { mPreference?.isLogin = false
+                                fragmentListener?.logout() },
+                            View.OnClickListener { })
+                    }
+
 
                     else -> showMessageDialog("Coming soon...")
                 }

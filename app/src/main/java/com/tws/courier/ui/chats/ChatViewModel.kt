@@ -36,9 +36,10 @@ class ChatViewModel :BaseViewModel()
         map["method_name"] = "chats_list"
         map["seller_type"] = "customer"//"agent"
 
-
         uiScope.launch {
             (
+
+
                     object : RemoteRepo<BaseResponse<List<Chat>>> {
                         override val deferred: Deferred<BaseResponse<List<Chat>>>
                             get() = ApiClient.authorizedApiService.chatList(map)
@@ -76,10 +77,11 @@ class ChatViewModel :BaseViewModel()
         map["message"] = message.trim()
         map["method_name"] = "chats_add"
         map["seller_type"] = "customer"
-
+        //showProgressDialog.value= SingleActionEvent(false)
 
         uiScope.launch {
             (
+
                     object : RemoteRepo<BaseResponse<Chat>> {
                         override val deferred: Deferred<BaseResponse<Chat>>
                             get() = ApiClient.apiService.sendMsg(
@@ -89,6 +91,8 @@ class ChatViewModel :BaseViewModel()
                             get() = DataRequestType.SEND_MSG
                         override val repoListener: RepoListener
                             get() = this@ChatViewModel.repoListener
+
+
                     }
                     )
                 .executeApiRequest()?.apply {
@@ -96,6 +100,7 @@ class ChatViewModel :BaseViewModel()
                         onMsgSend.value = SingleActionEvent(this.response.data)
                     } else showToast.value = SingleActionEvent(this.response.message)
                 }
+
         }
     }
 }

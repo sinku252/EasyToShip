@@ -1,6 +1,7 @@
 package com.app.monrotv.ui.dashboard.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.webkit.URLUtil
 import androidx.annotation.DrawableRes
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tws.courier.AppManager
 import com.tws.courier.R
+import com.tws.courier.databinding.RowListDrawerFooterBinding
 import com.tws.courier.databinding.RowListDrawerHeaderBinding
 import com.tws.courier.databinding.RowListDrawerItemBinding
 import com.tws.courier.setTextOrEmpty
@@ -18,15 +20,23 @@ class DrawerAdapter(val items: List<DrawerItem>, val callbacks: DrawerAdapterCal
 
     private val TYPE_HEADER = 1
     private val TYPE_ITEM = 2
+    private val TYPE_FOOTER = 3
     private var headerHolder: HeaderHolder? = null
+    private var footerHolder: FooterHolder? = null
 
-    override fun getItemViewType(position: Int): Int = if (position == 0) TYPE_HEADER else TYPE_ITEM
+    override fun getItemViewType(position: Int): Int = if (position == 0) TYPE_HEADER else if(position==13) TYPE_FOOTER else TYPE_ITEM
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == TYPE_HEADER) return HeaderHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
                 R.layout.row_list_drawer_header, parent, false
+            )
+        )
+        else if (viewType == TYPE_FOOTER) return FooterHolder(
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.row_list_drawer_footer, parent, false
             )
         )
         return ItemHolder(
@@ -42,10 +52,27 @@ class DrawerAdapter(val items: List<DrawerItem>, val callbacks: DrawerAdapterCal
             headerHolder = holder
             holder.bind()
         }
-        if (holder is ItemHolder) holder.bind(items[position - 1])
+       /* if (holder is FooterHolder) {
+            footerHolder = holder
+            holder.bind()
+        }*/
+
+        if (holder is ItemHolder) holder.bind(items[position - 1],position)
+
     }
 
-    override fun getItemCount(): Int = items.size + 1
+    override fun getItemCount(): Int = items.size + 2
+
+    inner class FooterHolder(private val binding: RowListDrawerFooterBinding) :
+        RecyclerView.ViewHolder(binding.root)
+    {
+        init {
+            binding.constRoot.setOnClickListener {
+                callbacks.onHeaderClicked()
+            }
+        }
+        }
+
 
     inner class HeaderHolder(private val binding: RowListDrawerHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -74,6 +101,7 @@ class DrawerAdapter(val items: List<DrawerItem>, val callbacks: DrawerAdapterCal
             AppManager.getUser()?.let { user ->
                 setUserImage(user.imagePath)
                 binding.textName.setTextOrEmpty(user.username)
+                binding.textEmail.setTextOrEmpty(user.email)
             }
         }
     }
@@ -93,10 +121,15 @@ class DrawerAdapter(val items: List<DrawerItem>, val callbacks: DrawerAdapterCal
             }
         }
 
-        fun bind(drawerItem: DrawerItem) {
+        fun bind(drawerItem: DrawerItem,position: Int) {
             this.drawerItem = drawerItem
             binding.textTitle.setTextOrEmpty(drawerItem.title)
             binding.imageIcon.setImageResource(drawerItem.drawable)
+            if(position==3 || position==7)
+                binding.vu0.visibility= View.VISIBLE
+            else
+                binding.vu0.visibility= View.GONE
+
             binding.executePendingBindings()
         }
     }
@@ -109,13 +142,18 @@ class DrawerAdapter(val items: List<DrawerItem>, val callbacks: DrawerAdapterCal
     data class DrawerItem(val id: Int, val title: String, @DrawableRes val drawable: Int) {
         companion object {
             val getItemsList = listOf<DrawerItem>(
-                DrawerItem(33, "Home", R.drawable.lock),
-                DrawerItem(34, "Create Shipment", R.drawable.lock),
-                DrawerItem(35, "Create Ticket", R.drawable.lock),
-                DrawerItem(36, "Chats", R.drawable.lock),
-                DrawerItem(37, "Orders", R.drawable.lock),
-                DrawerItem(38, "Manage Profile", R.drawable.lock),
-                DrawerItem(39, "Notification", R.drawable.lock)
+                DrawerItem(33, "Home", R.drawable.menu_home),
+                DrawerItem(34, "Create New Shipment", R.drawable.icon_create_shipment),
+                DrawerItem(35, "Shipment History", R.drawable.icon_shipment_history),
+                DrawerItem(36, "Account Setting", R.drawable.icon_account),
+                DrawerItem(37, "Wallet", R.drawable.icon_wallet),
+                DrawerItem(38, "Profile", R.drawable.icon_profile),
+                DrawerItem(39, "Chat", R.drawable.icon_chat),
+                DrawerItem(40, "Ticket", R.drawable.icon_create_docket),
+                DrawerItem(41, "Share", R.drawable.icon_share),
+                DrawerItem(42, "Notification", R.drawable.icon_notification),
+                DrawerItem(43, "Contact us", R.drawable.icon_contact_us),
+                DrawerItem(44, "Logout", R.drawable.icon_logout)
              /*   DrawerItem(36, "Downloads", R.drawable.lock),
                 DrawerItem(37, "Settings", R.drawable.lock)*/
             )

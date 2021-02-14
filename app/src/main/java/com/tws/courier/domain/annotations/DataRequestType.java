@@ -39,6 +39,7 @@ public @interface DataRequestType {
     int UPDATE_FCM_TOKEN = 122;
     int SEND_MSG = 123;
     int GET_CHAT_LIST = 124;
+    int STEP1_COUNTRY_VALIDATION = 125;
 
 
 

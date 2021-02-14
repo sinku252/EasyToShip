@@ -34,9 +34,11 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
     val showViewByType = MutableLiveData<SingleActionEvent<Demo>>()
     val showViewByStep = MutableLiveData<SingleActionEvent<Int>>()
     val showInputDialog = MutableLiveData<SingleActionEvent<Int>>()
+    val showContactList = MutableLiveData<SingleActionEvent<Int>>()
 
     val journeyType = MutableLiveData<SingleActionEvent<Int>>()
     val onOrderPriceSuccessful = MutableLiveData<SingleActionEvent<OrderPrice>>()
+    val onStep1 = MutableLiveData<SingleActionEvent<String>>()
     val onOrderSuccessful = MutableLiveData<SingleActionEvent<OrderSuccess>>()
     val onCheckBoxSelect = MutableLiveData<SingleActionEvent<CheckBox>>()
 
@@ -59,8 +61,15 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
     var weight = ""
     var porterValue = ""
     var dimension = ""
+    var payment = ""
+    var orderPriceCalculted = ""
 
     var radio_checked = MutableLiveData<Int>()
+
+    init{
+        pickupMobileNumber=AppManager.getUser()?.mobile ?: ""
+    }
+
     init{
         radio_checked.postValue(1)//def value
     }
@@ -79,7 +88,7 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
     }
     var personalCommercial = MutableLiveData<Int>()
     init{
-        personalCommercial.postValue(1)//def value
+        personalCommercial.postValue(R.id.rb_personal)//def value
     }
 
     var vehicleType = MutableLiveData<Int>()
@@ -89,7 +98,7 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
 
     var transmissionSpeed = MutableLiveData<Int>()
     init{
-        transmissionSpeed.postValue(1)//def value
+        transmissionSpeed.postValue(-1)//def value
     }
     var paymentMode = MutableLiveData<Int>()
     init{
@@ -114,6 +123,11 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
     fun showInputDialog(type: Int)
     {
         showInputDialog.value = SingleActionEvent(type)
+    }
+
+    fun showContactist(type: Int)
+    {
+        showContactList.value = SingleActionEvent(type)
     }
 
     fun btnClickJourneyType(view: View, type: Int)
@@ -333,6 +347,26 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
                 )
                 return
             }
+            else if (orderValidation.bikeValues.shipmentType.equals("document"))  {
+                if (weight.toInt()>10)  {
+                    showInputError.value = SingleActionEvent(
+                        BaseFragment.InputError(
+                            InputErrorType.MESSAGE,
+                            AppManager.getString(R.string.err_weight_max)
+                        )
+                    )
+                    return
+                }
+            }
+            /*else if (orderValidation.bikeValues.dc.equals("0"))  {
+                showInputError.value = SingleActionEvent(
+                    BaseFragment.InputError(
+                        InputErrorType.MESSAGE,
+                        AppManager.getString(R.string.err_dc_empty)
+                    )
+                )
+                return
+            }*/
             var orderCalculation:OrderCalculation?=getObjectByType("local",
                 "bike",
                 allVehicleTypeList)
@@ -414,7 +448,7 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
                 )
                 return*/
             }
-            else if (TextUtils.isEmpty(porterValue))  {
+           /* else if (TextUtils.isEmpty(porterValue))  {
                 showInputError.value = SingleActionEvent(
                     BaseFragment.InputError(
                         InputErrorType.MESSAGE,
@@ -422,7 +456,7 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
                     )
                 )
                 return
-            }
+            }*/
             /*else if (TextUtils.isEmpty(porterValue.trim()))  {
                 showInputError.value = SingleActionEvent(
                     BaseFragment.InputError(
@@ -442,6 +476,16 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
                 )
                 return
             }
+
+           /* else if (orderValidation.localTruckValues.dc.equals("0"))  {
+                showInputError.value = SingleActionEvent(
+                    BaseFragment.InputError(
+                        InputErrorType.MESSAGE,
+                        AppManager.getString(R.string.err_dc_empty)
+                    )
+                )
+                return
+            }*/
 
             var orderCalculation:OrderCalculation?=getObjectByType("local",
                 "truck",
@@ -559,6 +603,18 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
                     }
                 }*/
 
+                else if (orderValidation.domesticValues.domesticFlightValues?.shipmentType.equals("document"))  {
+                    if (weight.toInt()>10)  {
+                        showInputError.value = SingleActionEvent(
+                            BaseFragment.InputError(
+                                InputErrorType.MESSAGE,
+                                AppManager.getString(R.string.err_weight_max)
+                            )
+                        )
+                        return
+                    }
+                }
+
             }
             else if(orderValidation.domesticValues.domesticType.equals("domesticTrain"))
             {
@@ -617,6 +673,15 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
                     )
                     return
                 }
+                /*else if (orderValidation.domesticValues.domesticTrainValues?.dc.equals("0"))  {
+                    showInputError.value = SingleActionEvent(
+                        BaseFragment.InputError(
+                            InputErrorType.MESSAGE,
+                            AppManager.getString(R.string.err_dc_empty)
+                        )
+                    )
+                    return
+                }*/
                 var orderCalculation:OrderCalculation?=getObjectByType("national",
                     "train",
                     allVehicleTypeList)
@@ -702,6 +767,15 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
                     )
                     return
                 }
+                /*else if (orderValidation.domesticValues.domesticTruckValues?.dc.equals("0"))  {
+                    showInputError.value = SingleActionEvent(
+                        BaseFragment.InputError(
+                            InputErrorType.MESSAGE,
+                            AppManager.getString(R.string.err_dc_empty)
+                        )
+                    )
+                    return
+                }*/
 
                 var orderCalculation:OrderCalculation?=getObjectByType("national",
                     "truck",
@@ -857,6 +931,7 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
         map["porter_count"]=porterValue
         map["is_delivery_charges"]=getCheckBoxValue(orderValidation,"dc")
         map["order_type"]=getOrderType(orderValidation)
+        map["transmission_speed"]=orderValidation.transmissionSpeed
         if (!TextUtils.isEmpty(dimension.trim()))
         {
             var lstValues: List<String> = dimension.split("x").map { it -> it.trim() }
@@ -1001,6 +1076,9 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
         }
         else if(orderValidation.journeyType==3)//domestic
         {
+
+
+
             if (TextUtils.isEmpty(orderValidation.domesticValues.domesticType.trim())) {
                 showInputError.value = SingleActionEvent(
                     BaseFragment.InputError(
@@ -1012,6 +1090,12 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
             }
             if (orderValidation.domesticValues.domesticType.equals("domesticTruck"))
             {
+                var distance=SphericalUtil.computeDistanceBetween(orderValidation.startLatLng,
+                    orderValidation.endLatLng)
+                var distanceKm=(distance/1000).toFloat()
+                println("distanceKm" + distanceKm)
+                var orderCalculation:OrderCalculation?=getObjectByType("national","truck",allVehicleTypeList)
+
                 if (TextUtils.isEmpty(fromLocation.trim())) {
                     showInputError.value = SingleActionEvent(
                         BaseFragment.InputError(
@@ -1021,7 +1105,7 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
                     )
                     return
                 }
-                if (TextUtils.isEmpty(toLocation.trim())) {
+                else if (TextUtils.isEmpty(toLocation.trim())) {
                     showInputError.value = SingleActionEvent(
                         BaseFragment.InputError(
                             InputErrorType.MESSAGE,
@@ -1030,7 +1114,8 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
                     )
                     return
                 }
-                if (TextUtils.isEmpty(orderValidation.domesticValues.domesticTruckValues?.shipmentType?.trim())) {
+
+                else if (TextUtils.isEmpty(orderValidation.domesticValues.domesticTruckValues?.shipmentType?.trim())) {
                     showInputError.value = SingleActionEvent(
                         BaseFragment.InputError(
                             InputErrorType.MESSAGE,
@@ -1039,15 +1124,7 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
                     )
                     return
                 }
-
-                var distance=SphericalUtil.computeDistanceBetween(orderValidation.startLatLng,
-                    orderValidation.endLatLng)
-                var distanceKm=(distance/1000).toFloat()
-                println("distanceKm" + distanceKm)
-                var orderCalculation:OrderCalculation?=getObjectByType("national",
-                    "truck",
-                    allVehicleTypeList)
-                if (orderCalculation!!.minDistance?.toFloat()>distanceKm) {
+                else if (orderCalculation!!.minDistance?.toFloat()>distanceKm) {
                     var message=IConstant.miniDistance+"truck "+orderCalculation.minDistance+"km"
                     //var message =AppManager.getString(R.string.err_max_km,"bike","bike")
                     showInputError.value = SingleActionEvent(
@@ -1058,6 +1135,8 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
                     )
                     return
                 }
+
+                Log.e("gsdsdgsg",orderValidation.domesticValues.domesticTruckValues?.shipmentType)
             }
             else if(orderValidation.domesticValues.domesticType.equals("domesticTrain"))
             {
@@ -1123,6 +1202,8 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
             }
 
 
+            Log.e("fafasfsaf",""+orderValidation)
+
 
         }
 
@@ -1166,26 +1247,30 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
             }
         }
 
-       /* if (TextUtils.isEmpty(fromLocation.trim())) {
-            showInputError.value = SingleActionEvent(
-                BaseFragment.InputError(
-                    InputErrorType.MESSAGE,
-                    AppManager.getString(R.string.err_from_empty)
-                )
-            )
-            return
-        }
-        if (TextUtils.isEmpty(toLocation.trim())) {
-            showInputError.value = SingleActionEvent(
-                BaseFragment.InputError(
-                    InputErrorType.MESSAGE,
-                    AppManager.getString(R.string.err_to_empty)
-                )
-            )
-            return
-        }*/
 
-        showViewByStep.value= SingleActionEvent(1)
+        /*"method_name":"step1_country_validation",
+        "shipment_type":"parcel",
+        "end_latitude":"55.3781",
+        "end_longitude":"3.4360",
+        "start_latitude":"27.9174",
+        "start_longitude":"90.1384",
+        "vehicle_type":"truck",
+        "area_type":"national",
+        "transport_type":"export"*/
+
+        val map = HashMap<String, String>()
+        map["method_name"]="step1_country_validation"
+        map["start_latitude"]=orderValidation?.startLatLng?.latitude.toString()
+        map["start_longitude"]=orderValidation?.startLatLng?.longitude.toString()
+        map["end_latitude"]=orderValidation?.endLatLng?.latitude.toString()
+        map["end_longitude"]=orderValidation?.endLatLng?.longitude.toString()
+        map["area_type"]=getAreaType(orderValidation.journeyType)
+        map["shipment_type"]=getShipmentType(orderValidation)
+        map["vehicle_type"]=getVehicleType(orderValidation?.journeyType,orderValidation.domesticValues.domesticType)
+        map["transport_type"]=getTranspoetType(orderValidation)
+        checkStepOne(map)
+
+
 
     }
 
@@ -1195,6 +1280,15 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
             orderValidation.endLatLng)
         var distanceKm=(distance/1000).toFloat()
 
+        if (TextUtils.isEmpty(payment.trim())) {
+            showInputError.value = SingleActionEvent(
+                BaseFragment.InputError(
+                    InputErrorType.MESSAGE,
+                    AppManager.getString(R.string.err_payment_mode_empty)
+                )
+            )
+            return
+        }
         val map = HashMap<String, String>()
         map["method_name"]="add_orderprices"
         map["user_id"]=  AppManager.getUser()?.id ?: ""
@@ -1231,8 +1325,8 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
         map["total_amount_price"]= orderPrice.totalAmountPrice
         map["payment_mode"]=orderValidation.paymentMode
         map["payment_status"]="1"
-        map["payment_mode"]=orderValidation.paymentMode
-        map["payment_status"]="1"
+        /*map["payment_mode"]=payment
+        map["payment_status"]="1"*/
         map["destination"]=orderValidation.destination
         map["origin"]=orderValidation.origin
 
@@ -1335,7 +1429,7 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
     {
         var transpoetType = ""
 
-        if (orderValidation.journeyType == 1) {
+        if (orderValidation.journeyType == 2) {
             transpoetType = orderValidation.localTruckValues.oneWayTwoWay
         } else if (orderValidation.journeyType == 4) {
             transpoetType = orderValidation.internationalValues.importExport
@@ -1346,10 +1440,10 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
     fun getOrderType(orderValidation: OrderValidation):String
     {
         var orderType= ""
-        if (orderValidation.journeyType == 1) {
+        if (orderValidation.journeyType == 2) {
             orderType = orderValidation.localTruckValues.oneWayTwoWay
         }
-        else if (orderValidation.journeyType == 2) {
+        else if (orderValidation.journeyType == 3) {
             if (orderValidation.domesticValues.domesticType.equals("domesticTruck",
                     ignoreCase = true)) {
                 orderType = orderValidation.domesticValues.domesticTruckValues?.personalOrCommercial.toString()
@@ -1414,6 +1508,12 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
 
 
         }
+        else if (orderValidation.journeyType == 4) {
+            if(type.equals("insurance"))
+            {
+                checkValue=orderValidation.internationalValues.insurance
+            }
+        }
         return checkValue
     }
 
@@ -1436,6 +1536,30 @@ class CreateOrderViewModel/*(private val pref: KotlinPreferencesHelper) */ : Bas
                     if (this.response.status.equals("1", ignoreCase = true)) {
                         onOrderPriceSuccessful.value = SingleActionEvent(this.response.data)
                         showViewByStep.value= SingleActionEvent(2)
+                    } else showToast.value = SingleActionEvent(this.response.message)
+                }
+        }
+    }
+
+
+    fun checkStepOne(params: HashMap<String, String>) {
+        uiScope.launch {
+            (
+                    object : RemoteRepo<BaseResponse<String>> {
+                        override val deferred: Deferred<BaseResponse<String>>
+                            get() = ApiClient.apiService.step1CountryValidation(
+                                params
+                            )
+                        override val dataRequestType: Int
+                            get() = DataRequestType.STEP1_COUNTRY_VALIDATION
+                        override val repoListener: RepoListener
+                            get() = this@CreateOrderViewModel.repoListener
+                    }
+                    )
+                .executeApiRequest()?.apply {
+                    if (this.response.status.equals("1", ignoreCase = true)) {
+                        //onStep1.value = SingleActionEvent(this.response.data)
+                        showViewByStep.value= SingleActionEvent(1)
                     } else showToast.value = SingleActionEvent(this.response.message)
                 }
         }

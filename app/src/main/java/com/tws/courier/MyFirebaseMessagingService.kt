@@ -18,10 +18,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService()
 {
     private val TAG = "MyFirebaseMessagingService"
     private lateinit var notificationManager: NotificationManager
-    private val ADMIN_CHANNEL_ID = getString(R.string.app_name)
+    private lateinit var ADMIN_CHANNEL_ID:String
     var mPreference: KotlinPreferencesHelper? = null
     override fun onNewToken(refreshedToken: String) {
         Log.e("NEW_TOKEN", refreshedToken)
+        ADMIN_CHANNEL_ID= this.getString(R.string.app_name)
         mPreference = KotlinPreferencesHelper(this)
         mPreference!!.fcmToken=refreshedToken
         mPreference!!.isTokenSave=false

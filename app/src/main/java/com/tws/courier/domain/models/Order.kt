@@ -126,5 +126,9 @@ data class Order(
     @SerializedName("weight")
     var weight: String,
     @SerializedName("width")
-    var width: String
+    var width: String,
+    @SerializedName("origin")
+    var origin: String
+  /*  @SerializedName("destination")
+    var destination: String*/
 )

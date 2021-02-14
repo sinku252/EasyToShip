@@ -61,6 +61,8 @@
     <string name="err_width_empty">Please enter Width.</string>
     <string name="err_length_empty">Please enter Lenght.</string>
     <string name="err_weight_empty">Please enter Weight.</string>
+    <string name="err_weight_max">Please select parcel because max Weight limit for document is 10Kg.</string>
+    <string name="err_dc_empty">Please Select Delivery Challan.</string>
     <string name="err_dimension_empty">Please enter Dimension.</string>
     <string name="err_delivery_empty">Please select door/self deliver type.</string>
     <string name="err_pickup_empty">Please enter Pickup Pincode.</string>

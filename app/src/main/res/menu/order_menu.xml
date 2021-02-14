@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_view_order"
+        android:title="View"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_reschedule_order"
+        android:title="Reschedule"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_cancel_order"
+        android:title="Cancel "
+        app:showAsAction="never"/>
+</menu>

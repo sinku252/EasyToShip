@@ -10,7 +10,7 @@ import com.tws.courier.databinding.FragmentOtpBinding
 import com.tws.courier.domain.annotations.InputErrorType
 import com.tws.courier.domain.models.ForgotPasswordResponse
 import com.tws.courier.ui.home.base.HomeBaseFragment
-import com.tws.courier.ui.orders.OrdersFragment
+
 
 class OtpFragment  : HomeBaseFragment<OtpViewModel, FragmentOtpBinding>()
 {

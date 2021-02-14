@@ -7,53 +7,54 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="0dp"
-        app:cardBackgroundColor="@color/black"
+        app:cardBackgroundColor="@android:color/transparent"
         app:cardElevation="0dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:paddingLeft="30dp"
+            android:orientation="vertical"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
             android:id="@+id/const_root"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true">
+            android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/image_icon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_margin="12dp"
-                app:layout_constraintBottom_toTopOf="@+id/vu_0"
-                app:layout_constraintEnd_toStartOf="@+id/text_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0"
-                app:srcCompat="@drawable/ic_user_avatar_white" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+            <LinearLayout
                 android:gravity="center_vertical"
-                android:textColor="@color/colorTextWhite"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:fontFamily="@font/font_futura_light"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/image_icon"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="dummy_text_large" />
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="12dp"
+                    app:srcCompat="@drawable/ic_user_avatar_white" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/colorTextWhite"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:fontFamily="@font/font_futura_light"
+                    tools:text="dummy_text_large" />
+
+
+            </LinearLayout>
             <View
+                android:visibility="gone"
+                android:layout_marginRight="60dp"
+                android:layout_marginLeft="15dp"
                 android:id="@+id/vu_0"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@drawable/shape_divider_raven_one"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image_icon" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:background="#fff"
+                />
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>
 

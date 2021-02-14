@@ -295,7 +295,7 @@ class MapsActivity: BaseDrawerKotlin<CreateOrderViewModel, FragmentCreateOrderBi
         viewModel.oneWayTwoWay.observe(this, Observer {
             if (it != 1) {
                 if (viewBinding.bottomSheet.rbRoundTrip.id == it) {
-                    orderValidation.localTruckValues.oneWayTwoWay = "roudtrip"
+                    orderValidation.localTruckValues.oneWayTwoWay = "roundtrip"
                 } else if (viewBinding.bottomSheet.rbOneWay.id == it) {
                     orderValidation.localTruckValues.oneWayTwoWay = "oneway"
                 }
@@ -524,7 +524,7 @@ class MapsActivity: BaseDrawerKotlin<CreateOrderViewModel, FragmentCreateOrderBi
 
         viewModel.transmissionSpeed.observe(this, Observer {
             if (it != 1) {
-                if (viewBinding.bottomSheet.rbSilver.id == it) {
+               /* if (viewBinding.bottomSheet.rbSilver.id == it) {
                     orderValidation.transmissionSpeed = "silver"
                 } else if (viewBinding.bottomSheet.rbGold.id == it) {
                     orderValidation.transmissionSpeed = "gold"
@@ -532,7 +532,7 @@ class MapsActivity: BaseDrawerKotlin<CreateOrderViewModel, FragmentCreateOrderBi
                     orderValidation.transmissionSpeed = "platinum"
                 }
                 viewBinding?.orderValidation = orderValidation
-                viewBinding.bottomSheet.orderValidation = viewBinding?.orderValidation
+                viewBinding.bottomSheet.orderValidation = viewBinding?.orderValidation*/
             }
         })
 

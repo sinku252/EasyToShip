@@ -8,6 +8,36 @@ data class OrderPrice(
     var totalAmountPrice: String,
     @SerializedName("total_delivery_challan")
     var totalDeliveryChallan: String,
+    @SerializedName("total_distance")
+    var totalDistance: String,
+    @SerializedName("total_distance_price")
+    var totalDistancePrice: String,
+    @SerializedName("total_fair")
+    var totalFair: String,
+    @SerializedName("total_gst_charge")
+    var totalGstCharge: String,
+    @SerializedName("total_insurance_charge")
+    var totalInsuranceCharge: String,
+    @SerializedName("total_other_charge")
+    var totalOtherCharge: String,
+    @SerializedName("total_peak_charge")
+    var totalPeakCharge: String,
+    @SerializedName("total_porter_charge")
+    var totalPorterCharge: String,
+    @SerializedName("total_reverse_trip")
+    var totalReverseTrip: String,
+    @SerializedName("total_weight_price_national")
+    var totalWeightPriceNational: List<TotalWeightPrice>?,
+    @SerializedName("total_wieght_price")
+    var totalWieghtPrice: String,
+    @SerializedName("total_weight_price_international")
+    var totalWeightPriceInternational: List<TotalWeightPrice>?
+
+
+ /*   @SerializedName("total_amount_price")
+    var totalAmountPrice: String,
+    @SerializedName("total_delivery_challan")
+    var totalDeliveryChallan: String,
     @SerializedName("total_fair")
     var totalFair: String,
     @SerializedName("total_gst_charge")
@@ -22,14 +52,13 @@ data class OrderPrice(
     var totalReverseTrip: String,
     @SerializedName("total_other_charge")
     var totalOtherCharge: String,
-
     @SerializedName("total_distance_price")
-var totalDistancePrice: String,
-@SerializedName("total_wieght_price")
-var totalWieghtPrice: String
+    var totalDistancePrice: String,
+    @SerializedName("total_wieght_price")
+    var totalWieghtPrice: String
+*/
 
-
-   /* @SerializedName("area_type")
+    /* @SerializedName("area_type")
     var areaType: String,
     @SerializedName("delivery_address")
     var deliveryAddress: String,
@@ -83,4 +112,11 @@ var totalWieghtPrice: String
     var weight: String,
     @SerializedName("width")
     var width: String*/
+)
+
+data class TotalWeightPrice(
+    @SerializedName("type")
+    var type: String,
+    @SerializedName("value")
+    var value: String
 )

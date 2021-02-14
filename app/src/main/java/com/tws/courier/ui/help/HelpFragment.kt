@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.tws.courier.R
 import com.tws.courier.databinding.FragmentAddressBinding
 import com.tws.courier.databinding.FragmentHelpBinding
 import com.tws.courier.domain.models.Address
 import com.tws.courier.domain.models.Help
 import com.tws.courier.domain.models.Order
+import com.tws.courier.domain.models.OrderSuccess
 import com.tws.courier.ui.address.AddressViewModel
 import com.tws.courier.ui.create_shipment.adapter.AddressAdapter
 import com.tws.courier.ui.help.adapter.HelpAdapter
@@ -44,7 +46,7 @@ class HelpFragment : HomeBaseFragment<HelpViewModel, FragmentHelpBinding>()
     val adapter = HelpAdapter(
         object : HelpAdapter.AdapterCallbacks {
             override fun onSelectClicked(help: Help) {
-                    fragmentListener?.navigateToTokenResponseFragment()
+                    fragmentListener?.navigateToTokenResponseFragment(help)
             }
         })
 

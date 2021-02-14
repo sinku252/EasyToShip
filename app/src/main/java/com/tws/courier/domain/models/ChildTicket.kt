@@ -1,8 +1,11 @@
 package com.tws.courier.domain.models
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class ChildTicket(
     @SerializedName("created_date")
     var createdDate: String,
@@ -20,4 +23,4 @@ data class ChildTicket(
     var subject: String,
     @SerializedName("user_id")
     var userId: String
-)
+):Parcelable

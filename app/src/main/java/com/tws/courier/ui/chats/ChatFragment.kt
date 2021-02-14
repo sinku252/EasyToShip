@@ -8,6 +8,7 @@ import com.tws.courier.R
 import com.tws.courier.databinding.FragmentChatBinding
 import com.tws.courier.databinding.FragmentHelpBinding
 import com.tws.courier.databinding.FragmentTokenBinding
+import com.tws.courier.domain.annotations.DataRequestType
 import com.tws.courier.domain.annotations.InputErrorType
 import com.tws.courier.domain.models.Chat
 import com.tws.courier.domain.models.Help
@@ -65,13 +66,17 @@ class ChatFragment : HomeBaseFragment<ChatViewModel, FragmentChatBinding>()
         viewModel.onChatListReceived.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 adapter.setList(ArrayList(it))
+                viewBinding.reyclerviewMessageList.scrollToPosition(adapter.getItemCount() - 1);
             }
         })
 
         viewModel.onMsgSend.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 //var chat:Chat=Chat("",it,"customer")
+                viewModel.message=""
+                viewBinding.viewmodel=viewModel
                 adapter.addMsg(it)
+                viewBinding.reyclerviewMessageList.scrollToPosition(adapter.getItemCount() - 1);
             }
         })
     }
@@ -83,5 +88,10 @@ class ChatFragment : HomeBaseFragment<ChatViewModel, FragmentChatBinding>()
             }
 
         }
+    }
+
+    override fun setDataRequestProgressIndicator(dataRequestType: Int, visible: Boolean) {
+        if (dataRequestType == DataRequestType.SEND_MSG) return
+        super.setDataRequestProgressIndicator(dataRequestType, visible)
     }
 }

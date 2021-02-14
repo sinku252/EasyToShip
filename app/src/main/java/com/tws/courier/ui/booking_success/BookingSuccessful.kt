@@ -1,13 +1,22 @@
 package com.tws.courier.ui.booking_success
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.gson.annotations.SerializedName
 import com.tws.courier.R
 import com.tws.courier.databinding.FragmentBookingSuccessBinding
+import com.tws.courier.domain.models.OrderPrice
 import com.tws.courier.domain.models.OrderSuccess
+
 import com.tws.courier.getDateWithMonthName
 import com.tws.courier.getDateWithMonthNameFromCalendar
 import com.tws.courier.ui.home.base.HomeBaseFragment
+import kotlinx.android.synthetic.main.common_input_dialog.view.*
+import kotlinx.android.synthetic.main.price_dialog.view.*
 
 class BookingSuccessful : HomeBaseFragment<BookingViewModel, FragmentBookingSuccessBinding>()
 {
@@ -60,6 +69,74 @@ class BookingSuccessful : HomeBaseFragment<BookingViewModel, FragmentBookingSucc
     private fun observeLiveData() {
         viewBinding.orderSuccess=orderSuccess
         viewBinding.tvDateTime.text= getDateWithMonthName(viewBinding.orderSuccess?.reqCO?.schedule!!)
+
+        viewModel.showPriceDialog.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                if(it)
+                {
+                  /*  var totalAmount= orderSuccess?.totalAmount
+                    var totalDeliveryChallan=orderSuccess?.totalDeliveryChallan
+                    var totalFair=""
+                    var totalGstCharge=orderSuccess?.totalGstCharge
+                    var totalInsuranceCharge=orderSuccess?.totalInsuranceCharge
+                    var totalPeakCharge=orderSuccess?.totalPeakCharge
+                    var totalPorterCharge=orderSuccess?.totalPorterCharge
+                    var totalReverseTrip=orderSuccess?.totalReverseTrip
+                    var totalOtherCharge=orderSuccess?.totalOtherCharge
+                    var totalDistancePrice=orderSuccess?.totalDistancePrice
+                    var totalWieghtPrice=""*/
+
+                    orderSuccess?.let{
+                        var totalAmount= it.totalAmount
+                        var totalDeliveryChallan=it.totalDeliveryChallan
+                        var totalFair=""
+                        var totalGstCharge=it.totalGstCharge
+                        var totalInsuranceCharge=it.totalInsuranceCharge
+                        var totalPeakCharge=it.totalPeakCharge
+                        var totalPorterCharge=it.totalPorterCharge
+                        var totalReverseTrip=it.totalReverseTrip
+                        var totalOtherCharge=it.totalOtherCharge
+                        var totalDistancePrice=it.totalDistancePrice
+                        var totalWieghtPrice=""
+                        var orderPrice:OrderPrice=OrderPrice(totalAmount,
+                            totalDeliveryChallan,
+                            "",
+                            totalDistancePrice,
+                            totalFair,
+                            totalGstCharge,
+                            totalInsuranceCharge,
+                            totalOtherCharge,
+                            totalPeakCharge,
+                            totalPorterCharge,
+                            totalReverseTrip,
+                            null,
+                            totalWieghtPrice,
+                            null)
+
+
+
+
+                        /*var orderPrice:OrderPrice=OrderPrice(totalAmount,
+                            totalDeliveryChallan,
+                            totalFair,
+                            totalGstCharge,
+                            totalInsuranceCharge,
+                            totalPeakCharge,
+                            totalPorterCharge,
+                            totalReverseTrip,
+                            totalOtherCharge,
+                            totalDistancePrice,
+                            totalWieghtPrice)*/
+                        showPriceBox(orderPrice)
+                    }
+
+
+                }
+
+            }
+        })
+
+
      /*   if(orderSuccess?.vehicleType.equals("bike"))
             viewBinding.ivVehicle.setImageResource(R.drawable.ic_bike_blue)
         else if(orderSuccess?.vehicleType.equals("truck"))
@@ -71,5 +148,27 @@ class BookingSuccessful : HomeBaseFragment<BookingViewModel, FragmentBookingSucc
 
     }
 
+
+
+    fun showPriceBox(orderPrice: OrderPrice) {
+
+        val messageBoxView = LayoutInflater.from(activity).inflate(R.layout.price_dialog,
+            null)
+        val messageBoxBuilder = activity?.let { AlertDialog.Builder(it).setView(messageBoxView) }
+        val  messageBoxInstance = messageBoxBuilder?.show()
+        messageBoxView.tv_order_fair.text=orderPrice.totalFair
+        messageBoxView.tv_order_insurance.text=orderPrice.totalInsuranceCharge
+        messageBoxView.tv_order_porter.text=orderPrice.totalPorterCharge
+        messageBoxView.tv_order_reverse.text=orderPrice.totalReverseTrip
+        messageBoxView.tv_order_delivery_challan.text=orderPrice.totalDeliveryChallan
+        messageBoxView.tv_order_gst.text=orderPrice.totalGstCharge
+        messageBoxView.tv_order_peak.text=orderPrice.totalPeakCharge
+        messageBoxView.tv_order_total.text=getString(R.string.rs,orderPrice.totalAmountPrice)
+
+        messageBoxView.price_dialog_ok.setOnClickListener(){
+            messageBoxInstance?.dismiss()
+        }
+
+    }
 
 }

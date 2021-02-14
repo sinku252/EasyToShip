@@ -318,7 +318,7 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/ic_phone_1" />
+                                app:srcCompat="@drawable/profile_phone" />
 
                             <TextView
                                 android:id="@+id/user_change_password"
@@ -333,6 +333,7 @@
                             android:layout_height="1sp"
                             android:background="@color/colorGrey" />
                         <LinearLayout
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"

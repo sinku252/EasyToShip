@@ -17,6 +17,7 @@ import com.tws.courier.R
 import com.tws.courier.databinding.ActivityHomeBinding
 import com.tws.courier.domain.base.BaseActivity
 import com.tws.courier.domain.models.ForgotPasswordResponse
+import com.tws.courier.domain.models.Help
 import com.tws.courier.domain.models.OrderSuccess
 import com.tws.courier.showToastShort
 import com.tws.courier.ui.account_setting.AccountSettingFragment
@@ -242,6 +243,15 @@ class HomeActivity : BaseActivity<HomeViewModel, ActivityHomeBinding>(), HomeBas
     }
 
     override fun navigateToDashboardFragment() {
+       /* supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
+            )
+            .replace(R.id.container, DashboardFragment.newInstance()).commit()*/
+
         supportFragmentManager.beginTransaction()
             .setCustomAnimations(
                 R.anim.slide_in_right,
@@ -249,7 +259,7 @@ class HomeActivity : BaseActivity<HomeViewModel, ActivityHomeBinding>(), HomeBas
                 R.anim.slide_in_right,
                 R.anim.slide_out_left
             )
-            .replace(R.id.container, DashboardFragment.newInstance()).commit()
+            .replace(R.id.container, FragmentCreateOrder.newInstance()).commit()
     }
 
     override fun navigateToDashboardHomeFragment() {
@@ -511,7 +521,7 @@ class HomeActivity : BaseActivity<HomeViewModel, ActivityHomeBinding>(), HomeBas
             .commit()
     }
 
-    override fun navigateToTokenResponseFragment() {
+    override fun navigateToTokenResponseFragment(help:Help) {
         supportFragmentManager.beginTransaction()
             .setCustomAnimations(
                 R.anim.slide_in_right,
@@ -521,7 +531,7 @@ class HomeActivity : BaseActivity<HomeViewModel, ActivityHomeBinding>(), HomeBas
             )
             .add(
                 R.id.container,
-                TokenResponseFragment.newInstance(),
+                TokenResponseFragment.newInstance(help),
                 TokenResponseFragment.TAG
             )
             .addToBackStack(TokenResponseFragment.TAG)
@@ -641,8 +651,8 @@ class HomeActivity : BaseActivity<HomeViewModel, ActivityHomeBinding>(), HomeBas
         TODO("Not yet implemented")
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, intent);
+   /* override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == 200) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
@@ -666,7 +676,7 @@ class HomeActivity : BaseActivity<HomeViewModel, ActivityHomeBinding>(), HomeBas
             return
         }
         super.onActivityResult(requestCode, resultCode, data)
-    }
+    }*/
 
     fun navigateToFragment(type: String)
     {

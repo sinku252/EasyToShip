@@ -54,6 +54,9 @@ interface ApiService {
     @POST("view_orderprice")
     fun viewOrderPrice(@Body requestMap: Map<String, String>): Deferred<BaseResponse<OrderPrice>>
 
+    @POST("step1_country_validation")
+    fun step1CountryValidation(@Body requestMap: Map<String, String>): Deferred<BaseResponse<String>>
+
     @POST("add_orderprices")
     fun placeOrder(@Body requestMap: Map<String, String>): Deferred<BaseResponse<OrderSuccess>>
 

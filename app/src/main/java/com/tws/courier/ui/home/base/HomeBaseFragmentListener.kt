@@ -1,6 +1,7 @@
 package com.tws.courier.ui.home.base
 
 import com.tws.courier.domain.models.ForgotPasswordResponse
+import com.tws.courier.domain.models.Help
 import com.tws.courier.domain.models.OrderSuccess
 
 
@@ -28,7 +29,7 @@ interface HomeBaseFragmentListener {
     fun navigateToHelpFragment()
     fun navigateToTokenFragment()
     fun navigateToChatFragment()
-    fun navigateToTokenResponseFragment()
+    fun navigateToTokenResponseFragment(help:Help)
     fun navigateToCreateOrder()
     fun navigateToInsurance()
 

@@ -4,6 +4,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.tws.courier.BR
@@ -64,10 +65,27 @@ class OrderAdapter(private val adapterCallbacks: AdapterCallbacks) :
 
         init {
             binding.llOrderClick.setOnClickListener {
-                model?.let { it1 -> adapterCallbacks.onSelectClicked(it1)
+                model?.let {
+                     //  it1 -> adapterCallbacks.onSelectClicked(it1)
                     //lastSelectedPosition = getAdapterPosition();
                     //notifyDataSetChanged();
+                    val popupMenu: PopupMenu = PopupMenu(binding.llOrderClick.context,binding.llOrderClick)
+                    popupMenu.menuInflater.inflate(R.menu.order_menu,popupMenu.menu)
+                    popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+                        when (item.itemId) {
+                            R.id.action_view_order ->
+                                adapterCallbacks.onOrderViewClicked(it)
+                            R.id.action_reschedule_order ->
+                                adapterCallbacks.onOrderRescheduleClicked(it)
+                            R.id.action_cancel_order ->
+                                adapterCallbacks.onOrderCancelClicked(it)
+                            //Toast.makeText(this@MainActivity, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
+                        }
+                        true
+                    })
+                    popupMenu.show()
                 }
+
             }
            /* binding.cvClick.setOnClickListener {
                 model?.let { it1 -> adapterCallbacks.onSelectClicked(it1)
@@ -104,7 +122,8 @@ class OrderAdapter(private val adapterCallbacks: AdapterCallbacks) :
     }
 
     interface AdapterCallbacks {
-        fun onSelectClicked(order: Order)
-        fun onEditDeleteClicked(order: Order)
+        fun onOrderViewClicked(order: Order)
+        fun onOrderRescheduleClicked(order: Order)
+        fun onOrderCancelClicked(order: Order)
     }
 }
